@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Notes Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f3ef;
+  --surface:#ffffff;
+  --surface2:#f8f7f4;
+  --surface3:#eeede8;
+  --text:#18181b;
+  --text2:#52525b;
+  --text3:#a1a1aa;
+  --accent:#4f46e5;
+  --accent2:#6366f1;
+  --accent-bg:#eef2ff;
+  --accent-text:#3730a3;
+  --green:#16a34a;
+  --green-bg:#f0fdf4;
+  --green-text:#14532d;
+  --orange:#ea580c;
+  --orange-bg:#fff7ed;
+  --orange-text:#7c2d12;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+  --border:#e4e4e7;
+  --border2:#d4d4d8;
+  --radius:10px;--radius-lg:16px;--radius-xl:20px;
+  --shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 16px rgba(0,0,0,0.08),0 16px 40px rgba(0,0,0,0.12);
+  --font:'Plus Jakarta Sans',sans-serif;
+  --font-serif:'Lora',serif;
+}
+[data-dark]{
+  --bg:#0f0f11;--surface:#18181b;--surface2:#1f1f23;--surface3:#27272a;
+  --text:#fafafa;--text2:#a1a1aa;--text3:#52525b;
+  --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1e1b4b;--accent-text:#c7d2fe;
+  --green:#4ade80;--green-bg:#052e16;--green-text:#bbf7d0;
+  --orange:#fb923c;--orange-bg:#431407;--orange-text:#fed7aa;
+  --red:#f87171;--red-bg:#450a0a;
+  --border:#27272a;--border2:#3f3f46;
+  --shadow:0 1px 2px rgba(0,0,0,0.3),0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:0 4px 8px rgba(0,0,0,0.3),0 8px 24px rgba(0,0,0,0.4);
+  --shadow-lg:0 8px 16px rgba(0,0,0,0.4),0 16px 40px rgba(0,0,0,0.5);
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;transition:background .3s,color .3s}
+button{font-family:var(--font);cursor:pointer;border:none;background:none;transition:all .15s}
+input,textarea,select{font-family:var(--font)}
+.app{max-width:1120px;margin:0 auto;padding:0 20px 80px}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0 18px;margin-bottom:28px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-icon{width:40px;height:40px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(79,70,229,0.35)}
+.brand-icon i{font-size:20px;color:#fff}
+.brand-copy h1{font-family:var(--font-serif);font-size:20px;font-weight:600;line-height:1.2;letter-spacing:-0.3px}
+.brand-copy p{font-size:12px;color:var(--text3);margin-top:1px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--border);color:var(--text2)}
+.icon-btn:hover{background:var(--surface2);color:var(--text);box-shadow:var(--shadow)}
+.icon-btn i{font-size:18px}
+.btn-add{display:flex;align-items:center;gap:7px;padding:0 18px;height:38px;border-radius:10px;background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 2px 8px rgba(79,70,229,0.3)}
+.btn-add:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,70,229,0.4)}
+.btn-add i{font-size:17px}
+
+/* STATS */
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
+.stat i{font-size:16px;color:var(--accent)}
+.stat strong{color:var(--text);font-weight:600}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.search-box{flex:1;min-width:200px;position:relative}
+.search-box i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--text3);pointer-events:none}
+.search-box input{width:100%;padding:9px 12px 9px 36px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:13.5px;outline:none;box-shadow:var(--shadow)}
+.search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
+.search-box input::placeholder{color:var(--text3)}
+.sort-sel{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:13.5px;outline:none;box-shadow:var(--shadow)}
+.sort-sel:focus{border-color:var(--accent)}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;overflow:hidden;box-shadow:var(--shadow)}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+
+.card-header{padding:18px 18px 0}
+
+/* VIDEO BUTTON */
+.open-btn{display:flex;align-items:center;gap:9px;width:100%;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;font-size:14px;font-weight:700;text-decoration:none;margin-bottom:14px;transition:all .15s;box-shadow:0 2px 10px rgba(79,70,229,0.28);letter-spacing:0.1px}
+.open-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(79,70,229,0.42);filter:brightness(1.06)}
+.open-btn i:first-child{font-size:18px}
+.open-btn .ext-icon{margin-left:auto;opacity:.8;font-size:14px}
+
+/* META ROW */
+.meta-row{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.yt-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#ff0000;color:#fff;letter-spacing:0.3px}
+.yt-badge i{font-size:12px}
+.card-date{font-size:11.5px;color:var(--text3);margin-left:auto}
+
+/* TITLE */
+.card-title{font-family:var(--font-serif);font-size:16px;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:12px}
+
+/* LINKS SECTION */
+.links-section{margin-bottom:0}
+.links-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.links-label i{font-size:13px}
+.links-list{display:flex;flex-wrap:wrap;gap:6px}
+.link-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;border:1px solid var(--border);background:var(--surface2);color:var(--text2);transition:all .13s;max-width:180px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.link-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.link-chip i{font-size:14px;flex-shrink:0}
+.link-chip.gh{border-color:#d0d7de;background:#f6f8fa;color:#24292f}
+.link-chip.gh:hover{border-color:#0969da;color:#0969da;background:#ddf4ff}
+.link-chip.drive{background:#e8f0fe;border-color:#c5d3f0;color:#1a73e8}
+.link-chip.drive:hover{background:#d2e3fc}
+.link-chip.notion{background:#f7f6f3;border-color:#e0dedb;color:#37352f}
+.link-chip.notion:hover{background:#eae9e6}
+.link-chip.figma{background:#fff4f2;border-color:#ffd1c8;color:#f24e1e}
+.link-chip.figma:hover{background:#ffe8e3}
+.link-chip.other{background:var(--surface2);color:var(--text2)}
+[data-dark] .link-chip.gh{background:#21262d;border-color:#30363d;color:#c9d1d9}
+[data-dark] .link-chip.drive{background:#1a237e22;border-color:#3949ab55;color:#90caf9}
+[data-dark] .link-chip.notion{background:#2c2c2c;border-color:#3c3c3c;color:#e0e0e0}
+[data-dark] .link-chip.figma{background:#2d1a18;border-color:#6b2c20;color:#ff7262}
+
+/* CARD BODY */
+.card-body{padding:12px 18px 0;flex:1}
+.sep{height:1px;background:var(--border);margin:12px 0}
+
+.notes-wrap{position:relative}
+.notes-text{font-size:13px;line-height:1.7;color:var(--text2);padding:12px;background:var(--surface2);border-radius:10px;max-height:130px;overflow:hidden;white-space:pre-wrap;word-break:break-word;border:1px solid var(--border)}
+.notes-text.open{max-height:none}
+.notes-fade{position:absolute;bottom:0;left:0;right:0;height:44px;background:linear-gradient(transparent,var(--surface2));border-radius:0 0 10px 10px;pointer-events:none}
+.notes-empty{font-size:13px;color:var(--text3);font-style:italic;padding:8px 0}
+.char-tag{font-size:11.5px;color:var(--text3);margin-top:5px}
+.expand-btn{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--accent);padding:5px 0;background:none;border:none;margin-top:2px}
+.expand-btn:hover{opacity:.75}
+.expand-btn i{font-size:14px}
+
+/* CARD FOOTER */
+.card-footer{display:flex;gap:5px;flex-wrap:wrap;padding:12px 18px 16px;border-top:1px solid var(--border);margin-top:12px}
+.act-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--text2);border:1px solid var(--border);background:var(--surface2);font-family:var(--font)}
+.act-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
+.act-btn.del:hover{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.act-btn i{font-size:13px}
+
+/* EMPTY */
+.empty{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-ico{width:76px;height:76px;background:var(--surface);border:1px solid var(--border);border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
+.empty-ico i{font-size:34px;color:var(--text3)}
+.empty h2{font-family:var(--font-serif);font-size:22px;margin-bottom:8px}
+.empty p{color:var(--text2);font-size:14px;max-width:300px;margin:0 auto 22px}
+
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto;backdrop-filter:blur(3px)}
+.modal{background:var(--surface);border-radius:var(--radius-xl);width:100%;max-width:640px;border:1px solid var(--border);box-shadow:var(--shadow-lg);animation:up .2s ease}
+@keyframes up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 16px;border-bottom:1px solid var(--border)}
+.modal-hd h2{font-family:var(--font-serif);font-size:17px;font-weight:600}
+.modal-bd{padding:22px}
+.fg{margin-bottom:16px}
+.fl{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:600;color:var(--text2);margin-bottom:6px;letter-spacing:0.2px}
+.fl span{font-weight:400;color:var(--text3)}
+.fi{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface2);color:var(--text);font-size:13.5px;outline:none}
+.fi:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.fi::placeholder{color:var(--text3)}
+.fi.err{border-color:var(--red)}
+.fi-ta{min-height:160px;resize:vertical;line-height:1.65}
+.err-msg{font-size:12px;color:var(--red);margin-top:4px}
+.url-ok{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--green-bg);border-radius:7px;margin-top:7px;font-size:12px;color:var(--green-text);border:1px solid rgba(22,163,74,.2)}
+.url-ok i{font-size:14px;color:var(--green)}
+
+/* LINKS MANAGER IN MODAL */
+.links-mgr{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
+.links-mgr-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.links-mgr-title i{font-size:14px;color:var(--accent)}
+.link-row{display:flex;gap:7px;margin-bottom:7px;align-items:center}
+.link-row input{flex:1;padding:7px 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none}
+.link-row input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,.1)}
+.link-row input::placeholder{color:var(--text3)}
+.link-del-btn{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text3);border:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.link-del-btn:hover{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+.link-del-btn i{font-size:14px}
+.add-link-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--accent);border:1px dashed var(--accent);background:transparent;margin-top:4px}
+.add-link-btn:hover{background:var(--accent-bg)}
+.add-link-btn i{font-size:14px}
+
+.modal-ft{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px 20px;border-top:1px solid var(--border)}
+.btn-cancel{padding:8px 18px;border-radius:var(--radius);border:1px solid var(--border);color:var(--text2);font-size:13.5px;background:var(--surface)}
+.btn-cancel:hover{background:var(--surface2)}
+.btn-save{padding:8px 22px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 2px 8px rgba(79,70,229,.3)}
+.btn-save:hover{background:var(--accent2);transform:translateY(-1px)}
+
+/* CONFIRM */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
+.confirm-box{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:370px;border:1px solid var(--border);box-shadow:var(--shadow-lg);padding:26px;animation:up .15s ease}
+.confirm-box h3{font-family:var(--font-serif);font-size:17px;margin-bottom:7px}
+.confirm-box p{font-size:13px;color:var(--text2);margin-bottom:22px}
+.confirm-acts{display:flex;gap:8px;justify-content:flex-end}
+.btn-del{padding:8px 18px;border-radius:var(--radius);background:var(--red);color:#fff;font-size:13.5px;font-weight:600}
+.btn-del:hover{opacity:.9}
+
+/* TOAST */
+.toast-area{position:fixed;bottom:22px;right:22px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 15px;font-size:13px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;animation:tin .2s ease;pointer-events:auto;max-width:310px}
+.toast i{font-size:16px}
+.toast.ok i{color:var(--green)}.toast.err i{color:var(--red)}.toast.info i{color:var(--accent)}
+@keyframes tin{from{transform:translateX(18px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* LINK TYPE QUICK BUTTONS */
+.quick-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ql-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer}
+.ql-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.ql-btn i{font-size:14px}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr}.nav{flex-wrap:wrap;gap:12px}.toolbar{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <nav class="nav">
+    <div class="brand">
+      <div class="brand-icon"><i class="ti ti-device-tv" aria-hidden="true"></i></div>
+      <div class="brand-copy">
+        <h1>Video Notes Hub</h1>
+        <p>Your personal YouTube learning journal</p>
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeBtn" title="Toggle dark mode"><i class="ti ti-sun" id="themeIco" aria-hidden="true"></i></button>
+      <button class="btn-add" id="addBtn"><i class="ti ti-plus" aria-hidden="true"></i>Add Note</button>
+    </div>
+  </nav>
+
+  <div class="stats" id="statsBar"></div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <i class="ti ti-search" aria-hidden="true"></i>
+      <input type="text" id="searchIn" placeholder="Search titles and notes…">
+    </div>
+    <select class="sort-sel" id="sortSel">
+      <option value="newest">Newest first</option>
+      <option value="oldest">Oldest first</option>
+      <option value="az">Title A–Z</option>
+    </select>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="overlay" id="modalOv" style="display:none">
+  <div class="modal">
+    <div class="modal-hd">
+      <h2 id="modalHdTxt">Add Video Note</h2>
+      <button class="icon-btn" id="closeModal" style="border:none;background:none"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </div>
+    <div class="modal-bd">
+      <div class="fg">
+        <div class="fl">YouTube URL <span>required</span></div>
+        <input class="fi" type="url" id="urlIn" placeholder="https://youtube.com/watch?v=...">
+        <div class="err-msg" id="urlErr" style="display:none">Please enter a valid YouTube URL</div>
+        <div class="url-ok" id="urlOk" style="display:none"><i class="ti ti-circle-check-filled" aria-hidden="true"></i><span>Valid YouTube URL — opens in YouTube app</span></div>
+      </div>
+      <div class="fg">
+        <div class="fl">Title <span>required</span></div>
+        <input class="fi" type="text" id="titleIn" placeholder="e.g. Python Basics – Lesson 1">
+        <div class="err-msg" id="titleErr" style="display:none">Title is required</div>
+      </div>
+
+      <!-- LINKS MANAGER -->
+      <div class="fg">
+        <div class="fl">Resource Links <span>optional</span></div>
+        <div class="links-mgr">
+          <div class="links-mgr-title"><i class="ti ti-link" aria-hidden="true"></i>Quick add</div>
+          <div class="quick-links">
+            <button class="ql-btn" onclick="quickLink('GitHub','https://github.com/')"><i class="ti ti-brand-github" aria-hidden="true"></i>GitHub</button>
+            <button class="ql-btn" onclick="quickLink('Google Drive','https://drive.google.com/')"><i class="ti ti-brand-google-drive" aria-hidden="true"></i>Drive</button>
+            <button class="ql-btn" onclick="quickLink('Notion','https://notion.so/')"><i class="ti ti-brand-notion" aria-hidden="true"></i>Notion</button>
+            <button class="ql-btn" onclick="quickLink('Figma','https://figma.com/')"><i class="ti ti-brand-figma" aria-hidden="true"></i>Figma</button>
+            <button class="ql-btn" onclick="quickLink('Slides','https://docs.google.com/presentation/')"><i class="ti ti-presentation" aria-hidden="true"></i>Slides</button>
+            <button class="ql-btn" onclick="quickLink('Docs','https://docs.google.com/')"><i class="ti ti-file-text" aria-hidden="true"></i>Docs</button>
+          </div>
+          <div id="linkRows"></div>
+          <button class="add-link-btn" onclick="addLinkRow()"><i class="ti ti-plus" aria-hidden="true"></i>Add another link</button>
+        </div>
+      </div>
+
+      <div class="fg">
+        <div class="fl">Notes <span id="notesCtr">0 chars</span></div>
+        <textarea class="fi fi-ta" id="notesIn" placeholder="Write your notes here — supports unlimited content, line breaks, code snippets…"></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn-cancel" id="cancelModal">Cancel</button>
+      <button class="btn-save" id="saveBtn">Save Note</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="confirm-overlay" id="confirmOv" style="display:none">
+  <div class="confirm-box">
+    <h3>Delete this note?</h3>
+    <p>This will permanently remove the video note and all its links. This cannot be undone.</p>
+    <div class="confirm-acts">
+      <button class="btn-cancel" id="cancelDel">Keep it</button>
+      <button class="btn-del" id="doDel">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-area" id="toastArea"></div>
+
+<script>
+const KEY='vnhub_v3';
+let notes=[],editId=null,delId=null,dark=false;
+
+function load(){try{notes=JSON.parse(localStorage.getItem(KEY))||[];}catch{notes=[];}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(notes));}
+
+function isYT(url){try{const h=new URL(url).hostname;return['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(h);}catch{return false;}}
+
+function ago(ts){
+  const d=Date.now()-ts,m=~~(d/6e4);
+  if(m<1)return'just now';if(m<60)return m+'m ago';
+  const h=~~(m/60);if(h<24)return h+'h ago';
+  const dd=~~(h/24);if(dd<7)return dd+'d ago';
+  return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function fmtDate(ts){return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+
+function toast(msg,type='info'){
+  const a=document.getElementById('toastArea');
+  const icons={ok:'ti-circle-check-filled',err:'ti-circle-x-filled',info:'ti-info-circle-filled'};
+  const el=document.createElement('div');el.className='toast '+type;
+  el.innerHTML=`<i class="ti ${icons[type]}" aria-hidden="true"></i><span>${msg}</span>`;
+  a.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(18px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200);},2700);
+}
+
+function copyTxt(txt,lbl){
+  navigator.clipboard.writeText(txt).then(()=>toast(lbl+' copied!','ok')).catch(()=>{
+    const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast(lbl+' copied!','ok');
+  });
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function linkClass(url){
+  try{
+    const h=new URL(url).hostname;
+    if(h.includes('github.com'))return'gh';
+    if(h.includes('google.com')||h.includes('drive.google'))return'drive';
+    if(h.includes('notion.so'))return'notion';
+    if(h.includes('figma.com'))return'figma';
+  }catch{}return'other';
+}
+function linkIcon(url){
+  try{
+    const h=new URL(url).hostname;
+    if(h.includes('github'))return'ti-brand-github';
+    if(h.includes('drive.google')||h.includes('docs.google'))return'ti-brand-google-drive';
+    if(h.includes('notion'))return'ti-brand-notion';
+    if(h.includes('figma'))return'ti-brand-figma';
+    if(h.includes('youtube'))return'ti-brand-youtube';
+    if(h.includes('vercel'))return'ti-triangle';
+    if(h.includes('netlify'))return'ti-world';
+    if(h.includes('codesandbox')||h.includes('codepen'))return'ti-code';
+  }catch{}return'ti-link';
+}
+function linkLabel(link){
+  if(link.label&&link.label.trim())return link.label.trim();
+  try{const h=new URL(link.url).hostname.replace('www.','');return h;}catch{return'Link';}
+}
+
+function renderStats(){
+  const bar=document.getElementById('statsBar');
+  const tc=notes.reduce((s,n)=>s+n.notes.length,0);
+  const tl=notes.reduce((s,n)=>s+(n.links||[]).length,0);
+  bar.innerHTML=`
+    <div class="stat"><i class="ti ti-notes" aria-hidden="true"></i><span><strong>${notes.length}</strong> notes saved</span></div>
+    <div class="stat"><i class="ti ti-link" aria-hidden="true"></i><span><strong>${tl}</strong> resource links</span></div>
+    <div class="stat"><i class="ti ti-clock" aria-hidden="true"></i><span>Last saved <strong>${notes.length?ago(Math.max(...notes.map(n=>n.id))):'—'}</strong></span></div>`;
+}
+
+function getList(){
+  const q=document.getElementById('searchIn').value.toLowerCase().trim();
+  const s=document.getElementById('sortSel').value;
+  let list=[...notes];
+  if(q)list=list.filter(n=>n.title.toLowerCase().includes(q)||n.notes.toLowerCase().includes(q)||
+    (n.links||[]).some(l=>(l.label||'').toLowerCase().includes(q)||(l.url||'').toLowerCase().includes(q)));
+  if(s==='newest')list.sort((a,b)=>b.id-a.id);
+  else if(s==='oldest')list.sort((a,b)=>a.id-b.id);
+  else list.sort((a,b)=>a.title.localeCompare(b.title));
+  return list;
+}
+
+function renderGrid(){
+  const grid=document.getElementById('grid');
+  renderStats();
+  const list=getList();
+  if(!list.length){
+    const q=document.getElementById('searchIn').value.trim();
+    grid.innerHTML=`<div class="empty">
+      <div class="empty-ico"><i class="ti ti-movie-off" aria-hidden="true"></i></div>
+      <h2>${q?'No results found':'Nothing saved yet'}</h2>
+      <p>${q?'Try a different search term.':'Save your first YouTube video with notes and resource links!'}</p>
+      ${!q?`<button class="btn-add" onclick="openModal()" style="margin:0 auto;display:flex"><i class="ti ti-plus" aria-hidden="true"></i>Add your first note</button>`:''}
+    </div>`;
+    return;
+  }
+  grid.innerHTML=list.map(n=>{
+    const links=n.links||[];
+    const isLong=n.notes.length>260;
+    const linksHTML=links.length?`
+      <div class="sep"></div>
+      <div class="links-section">
+        <div class="links-label"><i class="ti ti-paperclip" aria-hidden="true"></i>Resources</div>
+        <div class="links-list">
+          ${links.filter(l=>l.url).map(l=>`
+            <a class="link-chip ${linkClass(l.url)}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" title="${esc(l.url)}">
+              <i class="ti ${linkIcon(l.url)}" aria-hidden="true"></i>${esc(linkLabel(l))}
+            </a>`).join('')}
+        </div>
+      </div>`:'' ;
+    return`<div class="card" data-id="${n.id}">
+      <div class="card-header">
+        <a class="open-btn" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">
+          <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+          Open Video
+          <i class="ti ti-external-link ext-icon" aria-hidden="true"></i>
+        </a>
+        <div class="meta-row">
+          <span class="yt-badge"><i class="ti ti-brand-youtube" aria-hidden="true"></i>YouTube</span>
+          <span class="card-date">${fmtDate(n.id)}</span>
+        </div>
+        <div class="card-title">${esc(n.title)}</div>
+        ${linksHTML}
+      </div>
+      <div class="card-body">
+        ${n.notes?`
+        <div class="sep"></div>
+        <div class="notes-wrap">
+          <div class="notes-text${isLong?'':' open'}" id="nt-${n.id}">${esc(n.notes)}</div>
+          ${isLong?`<div class="notes-fade" id="nf-${n.id}"></div>`:''}
+        </div>
+        <div class="char-tag">${n.notes.length.toLocaleString()} characters</div>
+        ${isLong?`<button class="expand-btn" onclick="doExpand(${n.id})"><i class="ti ti-chevron-down" id="ei-${n.id}" aria-hidden="true"></i><span id="et-${n.id}">Show more</span></button>`:''}
+        `:`<div class="sep"></div><div class="notes-empty">No notes yet — click edit to add some.</div>`}
+      </div>
+      <div class="card-footer">
+        <button class="act-btn" onclick="openModal(${n.id})"><i class="ti ti-edit" aria-hidden="true"></i>Edit</button>
+        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.notes)},'Notes')"><i class="ti ti-copy" aria-hidden="true"></i>Copy Notes</button>
+        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.url)},'URL')"><i class="ti ti-link" aria-hidden="true"></i>Copy URL</button>
+        <button class="act-btn del" onclick="askDel(${n.id})"><i class="ti ti-trash" aria-hidden="true"></i>Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function doExpand(id){
+  const nt=document.getElementById('nt-'+id);
+  const nf=document.getElementById('nf-'+id);
+  const et=document.getElementById('et-'+id);
+  const ei=document.getElementById('ei-'+id);
+  const open=nt.classList.contains('open');
+  nt.classList.toggle('open');
+  if(nf)nf.style.display=open?'block':'none';
+  et.textContent=open?'Show more':'Show less';
+  ei.className=open?'ti ti-chevron-down':'ti ti-chevron-up';
+}
+
+/* ---- MODAL LINK ROWS ---- */
+let linkRowCount=0;
+function addLinkRow(label='',url=''){
+  const id='lr-'+Date.now()+linkRowCount++;
+  const row=document.createElement('div');row.className='link-row';row.id=id;
+  row.innerHTML=`
+    <input type="text" placeholder="Label (e.g. GitHub Repo)" value="${esc(label)}" class="link-label-in">
+    <input type="url" placeholder="https://..." value="${esc(url)}" class="link-url-in">
+    <button class="link-del-btn" onclick="removeLinkRow('${id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>`;
+  document.getElementById('linkRows').appendChild(row);
+}
+function removeLinkRow(id){const el=document.getElementById(id);if(el)el.remove();}
+function quickLink(label,url){addLinkRow(label,url);}
+function getModalLinks(){
+  return Array.from(document.getElementById('linkRows').querySelectorAll('.link-row')).map(row=>({
+    label:row.querySelector('.link-label-in').value.trim(),
+    url:row.querySelector('.link-url-in').value.trim()
+  })).filter(l=>l.url);
+}
+
+function openModal(id=null){
+  editId=id;
+  document.getElementById('urlErr').style.display='none';
+  document.getElementById('titleErr').style.display='none';
+  document.getElementById('urlOk').style.display='none';
+  document.getElementById('urlIn').classList.remove('err');
+  document.getElementById('titleIn').classList.remove('err');
+  document.getElementById('linkRows').innerHTML='';
+  linkRowCount=0;
+  if(id!=null){
+    const n=notes.find(x=>x.id===id);
+    document.getElementById('modalHdTxt').textContent='Edit Note';
+    document.getElementById('urlIn').value=n.url;
+    document.getElementById('titleIn').value=n.title;
+    document.getElementById('notesIn').value=n.notes;
+    updCtr();updOk();
+    (n.links||[]).forEach(l=>addLinkRow(l.label,l.url));
+  }else{
+    document.getElementById('modalHdTxt').textContent='Add Video Note';
+    document.getElementById('urlIn').value='';
+    document.getElementById('titleIn').value='';
+    document.getElementById('notesIn').value='';
+    updCtr();
+  }
+  document.getElementById('modalOv').style.display='flex';
+  setTimeout(()=>document.getElementById('urlIn').focus(),80);
+}
+function closeModal(){document.getElementById('modalOv').style.display='none';editId=null;}
+function updCtr(){document.getElementById('notesCtr').textContent=document.getElementById('notesIn').value.length.toLocaleString()+' chars';}
+function updOk(){
+  const v=document.getElementById('urlIn').value.trim();
+  document.getElementById('urlOk').style.display=v&&isYT(v)?'flex':'none';
+}
+
+function saveNote(){
+  const url=document.getElementById('urlIn').value.trim();
+  const title=document.getElementById('titleIn').value.trim();
+  const nv=document.getElementById('notesIn').value;
+  let ok=true;
+  document.getElementById('urlErr').style.display='none';
+  document.getElementById('titleErr').style.display='none';
+  document.getElementById('urlIn').classList.remove('err');
+  document.getElementById('titleIn').classList.remove('err');
+  if(!url||!isYT(url)){document.getElementById('urlErr').style.display='block';document.getElementById('urlIn').classList.add('err');ok=false;}
+  if(!title){document.getElementById('titleErr').style.display='block';document.getElementById('titleIn').classList.add('err');ok=false;}
+  if(!ok)return;
+  const links=getModalLinks();
+  if(editId!=null){
+    const i=notes.findIndex(x=>x.id===editId);
+    notes[i]={...notes[i],url,title,notes:nv,links};
+    toast('Note updated','ok');
+  }else{
+    notes.unshift({id:Date.now(),url,title,notes:nv,links});
+    toast('Video note saved!','ok');
+  }
+  persist();renderGrid();closeModal();
+}
+
+function askDel(id){delId=id;document.getElementById('confirmOv').style.display='flex';}
+function doDel(){
+  notes=notes.filter(n=>n.id!==delId);persist();renderGrid();
+  document.getElementById('confirmOv').style.display='none';
+  toast('Note deleted','err');delId=null;
+}
+
+function toggleDark(){
+  dark=!dark;
+  document.documentElement.toggleAttribute('data-dark',dark);
+  localStorage.setItem('vnhub_dark',dark?'1':'');
+  document.getElementById('themeIco').className=dark?'ti ti-moon':'ti ti-sun';
+}
+
+/* INIT */
+load();
+if(localStorage.getItem('vnhub_dark')==='1'){dark=true;document.documentElement.setAttribute('data-dark','');document.getElementById('themeIco').className='ti ti-moon';}
+renderGrid();
+
+document.getElementById('addBtn').onclick=()=>openModal();
+document.getElementById('closeModal').onclick=closeModal;
+document.getElementById('cancelModal').onclick=closeModal;
+document.getElementById('saveBtn').onclick=saveNote;
+document.getElementById('themeBtn').onclick=toggleDark;
+document.getElementById('searchIn').oninput=renderGrid;
+document.getElementById('sortSel').onchange=renderGrid;
+document.getElementById('notesIn').oninput=updCtr;
+document.getElementById('urlIn').oninput=updOk;
+document.getElementById('cancelDel').onclick=()=>{document.getElementById('confirmOv').style.display='none';};
+document.getElementById('doDel').onclick=doDel;
+document.getElementById('modalOv').onclick=e=>{if(e.target===document.getElementById('modalOv'))closeModal();};
+document.getElementById('urlIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('titleIn').focus();});
+</script>
+</body>
+</html>
