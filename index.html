@@ -324,6 +324,13 @@ input,textarea,select{font-family:var(--font)}
 <div class="toast-area" id="toastArea"></div>
 
 <script>
+const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co";
+const SUPABASE_KEY = "sb_publishable_GwE67gUknMnZSftwJEa5eg_A2crKSb2";
+
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 const KEY='vnhub_v3';
 let notes=[],editId=null,delId=null,dark=false;
 
