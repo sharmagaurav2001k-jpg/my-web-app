@@ -325,14 +325,15 @@ input,textarea,select{font-family:var(--font)}
 
 <script>
 const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co";
-const SUPABASE_KEY = "sb_publishable_GwE67gUknMnZSftwJEa5eg_A2crKSb2";
+const SUPABASE_KEY = "YOUR_KEY_HERE";
 
-const supabase = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+
 async function testSupabase() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('Video')
     .select('*');
 
