@@ -331,6 +331,16 @@ const supabase = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+async function testSupabase() {
+  const { data, error } = await supabase
+    .from('Video')
+    .select('*');
+
+  console.log('DATA:', data);
+  console.log('ERROR:', error);
+}
+
+testSupabase();
 const KEY='vnhub_v3';
 let notes=[],editId=null,delId=null,dark=false;
 
