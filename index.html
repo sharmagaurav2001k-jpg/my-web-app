@@ -324,7 +324,7 @@ input,textarea,select{font-family:var(--font)}
 <div class="toast-area" id="toastArea"></div>
 
 <script>
-const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co";
 const SUPABASE_KEY = "sb_publishable_GwE67gUknMnZSftwJEa5eg_A2crKSb2";
 
 const supabaseClient = window.supabase.createClient(
@@ -340,8 +340,8 @@ async function testSupabase() {
   console.log("DATA:", data);
   console.log("ERROR FULL:", error);
   console.log("ERROR JSON:", JSON.stringify(error, null, 2));
-  console.log(SUPABASE_URL);
-  console.log(SUPABASE_KEY);
+  console.log("KEY:", SUPABASE_KEY);
+  console.log("KEY LENGTH:", SUPABASE_KEY.length);
 }
 
 testSupabase();
