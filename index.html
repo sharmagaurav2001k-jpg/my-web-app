@@ -345,6 +345,25 @@ async function testSupabase() {
 }
 
 testSupabase();
+
+async function testInsert() {
+  const { data, error } = await supabaseClient
+    .from('Video')
+    .insert([
+      {
+        title: "Test Video",
+        channel: "Gaurav",
+        views: 100,
+        thumbnail: "https://example.com/thumb.jpg",
+        video_url: "https://youtube.com/watch?v=test"
+      }
+    ]);
+
+  console.log("INSERT DATA:", data);
+  console.log("INSERT ERROR:", error);
+}
+
+testInsert();
 const KEY='vnhub_v3';
 let notes=[],editId=null,delId=null,dark=false;
 
