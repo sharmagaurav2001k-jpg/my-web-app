@@ -1,49 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Notes Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f3ef;
-  --surface:#ffffff;
-  --surface2:#f8f7f4;
-  --surface3:#eeede8;
-  --text:#18181b;
-  --text2:#52525b;
-  --text3:#a1a1aa;
-  --accent:#4f46e5;
-  --accent2:#6366f1;
-  --accent-bg:#eef2ff;
-  --accent-text:#3730a3;
-  --green:#16a34a;
-  --green-bg:#f0fdf4;
-  --green-text:#14532d;
-  --orange:#ea580c;
-  --orange-bg:#fff7ed;
-  --orange-text:#7c2d12;
-  --red:#dc2626;
-  --red-bg:#fef2f2;
-  --border:#e4e4e7;
-  --border2:#d4d4d8;
+  --bg:#f4f3ef;--surface:#ffffff;--surface2:#f8f7f4;--surface3:#eeede8;
+  --text:#18181b;--text2:#52525b;--text3:#a1a1aa;
+  --accent:#4f46e5;--accent2:#6366f1;--accent-bg:#eef2ff;--accent-text:#3730a3;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-text:#14532d;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --border:#e4e4e7;--border2:#d4d4d8;
   --radius:10px;--radius-lg:16px;--radius-xl:20px;
   --shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.06);
   --shadow-md:0 4px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.08);
   --shadow-lg:0 8px 16px rgba(0,0,0,0.08),0 16px 40px rgba(0,0,0,0.12);
-  --font:'Plus Jakarta Sans',sans-serif;
-  --font-serif:'Lora',serif;
+  --font:'Plus Jakarta Sans',sans-serif;--font-serif:'Lora',serif;
 }
 [data-dark]{
   --bg:#0f0f11;--surface:#18181b;--surface2:#1f1f23;--surface3:#27272a;
   --text:#fafafa;--text2:#a1a1aa;--text3:#52525b;
   --accent:#818cf8;--accent2:#a5b4fc;--accent-bg:#1e1b4b;--accent-text:#c7d2fe;
   --green:#4ade80;--green-bg:#052e16;--green-text:#bbf7d0;
-  --orange:#fb923c;--orange-bg:#431407;--orange-text:#fed7aa;
   --red:#f87171;--red-bg:#450a0a;
   --border:#27272a;--border2:#3f3f46;
   --shadow:0 1px 2px rgba(0,0,0,0.3),0 2px 8px rgba(0,0,0,0.3);
@@ -55,7 +38,6 @@ button{font-family:var(--font);cursor:pointer;border:none;background:none;transi
 input,textarea,select{font-family:var(--font)}
 .app{max-width:1120px;margin:0 auto;padding:0 20px 80px}
 
-/* NAV */
 .nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0 18px;margin-bottom:28px}
 .brand{display:flex;align-items:center;gap:11px}
 .brand-icon{width:40px;height:40px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(79,70,229,0.35)}
@@ -70,13 +52,11 @@ input,textarea,select{font-family:var(--font)}
 .btn-add:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(79,70,229,0.4)}
 .btn-add i{font-size:17px}
 
-/* STATS */
 .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;box-shadow:var(--shadow)}
 .stat i{font-size:16px;color:var(--accent)}
 .stat strong{color:var(--text);font-weight:600}
 
-/* TOOLBAR */
 .toolbar{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
 .search-box{flex:1;min-width:200px;position:relative}
 .search-box i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--text3);pointer-events:none}
@@ -84,33 +64,24 @@ input,textarea,select{font-family:var(--font)}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
 .search-box input::placeholder{color:var(--text3)}
 .sort-sel{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:13.5px;outline:none;box-shadow:var(--shadow)}
-.sort-sel:focus{border-color:var(--accent)}
 
-/* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px}
 
-/* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;overflow:hidden;box-shadow:var(--shadow)}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
-
 .card-header{padding:18px 18px 0}
 
-/* VIDEO BUTTON */
 .open-btn{display:flex;align-items:center;gap:9px;width:100%;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;font-size:14px;font-weight:700;text-decoration:none;margin-bottom:14px;transition:all .15s;box-shadow:0 2px 10px rgba(79,70,229,0.28);letter-spacing:0.1px}
 .open-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(79,70,229,0.42);filter:brightness(1.06)}
 .open-btn i:first-child{font-size:18px}
 .open-btn .ext-icon{margin-left:auto;opacity:.8;font-size:14px}
 
-/* META ROW */
 .meta-row{display:flex;align-items:center;gap:7px;margin-bottom:9px}
 .yt-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#ff0000;color:#fff;letter-spacing:0.3px}
 .yt-badge i{font-size:12px}
 .card-date{font-size:11.5px;color:var(--text3);margin-left:auto}
-
-/* TITLE */
 .card-title{font-family:var(--font-serif);font-size:16px;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:12px}
 
-/* LINKS SECTION */
 .links-section{margin-bottom:0}
 .links-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
 .links-label i{font-size:13px}
@@ -121,21 +92,15 @@ input,textarea,select{font-family:var(--font)}
 .link-chip.gh{border-color:#d0d7de;background:#f6f8fa;color:#24292f}
 .link-chip.gh:hover{border-color:#0969da;color:#0969da;background:#ddf4ff}
 .link-chip.drive{background:#e8f0fe;border-color:#c5d3f0;color:#1a73e8}
-.link-chip.drive:hover{background:#d2e3fc}
 .link-chip.notion{background:#f7f6f3;border-color:#e0dedb;color:#37352f}
-.link-chip.notion:hover{background:#eae9e6}
 .link-chip.figma{background:#fff4f2;border-color:#ffd1c8;color:#f24e1e}
-.link-chip.figma:hover{background:#ffe8e3}
-.link-chip.other{background:var(--surface2);color:var(--text2)}
 [data-dark] .link-chip.gh{background:#21262d;border-color:#30363d;color:#c9d1d9}
 [data-dark] .link-chip.drive{background:#1a237e22;border-color:#3949ab55;color:#90caf9}
 [data-dark] .link-chip.notion{background:#2c2c2c;border-color:#3c3c3c;color:#e0e0e0}
 [data-dark] .link-chip.figma{background:#2d1a18;border-color:#6b2c20;color:#ff7262}
 
-/* CARD BODY */
 .card-body{padding:12px 18px 0;flex:1}
 .sep{height:1px;background:var(--border);margin:12px 0}
-
 .notes-wrap{position:relative}
 .notes-text{font-size:13px;line-height:1.7;color:var(--text2);padding:12px;background:var(--surface2);border-radius:10px;max-height:130px;overflow:hidden;white-space:pre-wrap;word-break:break-word;border:1px solid var(--border)}
 .notes-text.open{max-height:none}
@@ -143,24 +108,25 @@ input,textarea,select{font-family:var(--font)}
 .notes-empty{font-size:13px;color:var(--text3);font-style:italic;padding:8px 0}
 .char-tag{font-size:11.5px;color:var(--text3);margin-top:5px}
 .expand-btn{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--accent);padding:5px 0;background:none;border:none;margin-top:2px}
-.expand-btn:hover{opacity:.75}
 .expand-btn i{font-size:14px}
 
-/* CARD FOOTER */
 .card-footer{display:flex;gap:5px;flex-wrap:wrap;padding:12px 18px 16px;border-top:1px solid var(--border);margin-top:12px}
 .act-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--text2);border:1px solid var(--border);background:var(--surface2);font-family:var(--font)}
 .act-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
 .act-btn.del:hover{background:var(--red-bg);color:var(--red);border-color:var(--red)}
 .act-btn i{font-size:13px}
 
-/* EMPTY */
 .empty{grid-column:1/-1;text-align:center;padding:80px 20px}
 .empty-ico{width:76px;height:76px;background:var(--surface);border:1px solid var(--border);border-radius:20px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
 .empty-ico i{font-size:34px;color:var(--text3)}
 .empty h2{font-family:var(--font-serif);font-size:22px;margin-bottom:8px}
 .empty p{color:var(--text2);font-size:14px;max-width:300px;margin:0 auto 22px}
 
-/* OVERLAY */
+/* LOADING */
+.loading{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);font-size:14px;display:flex;align-items:center;justify-content:center;gap:10px}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto;backdrop-filter:blur(3px)}
 .modal{background:var(--surface);border-radius:var(--radius-xl);width:100%;max-width:640px;border:1px solid var(--border);box-shadow:var(--shadow-lg);animation:up .2s ease}
 @keyframes up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -179,7 +145,6 @@ input,textarea,select{font-family:var(--font)}
 .url-ok{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--green-bg);border-radius:7px;margin-top:7px;font-size:12px;color:var(--green-text);border:1px solid rgba(22,163,74,.2)}
 .url-ok i{font-size:14px;color:var(--green)}
 
-/* LINKS MANAGER IN MODAL */
 .links-mgr{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
 .links-mgr-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
 .links-mgr-title i{font-size:14px;color:var(--accent)}
@@ -193,14 +158,18 @@ input,textarea,select{font-family:var(--font)}
 .add-link-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--accent);border:1px dashed var(--accent);background:transparent;margin-top:4px}
 .add-link-btn:hover{background:var(--accent-bg)}
 .add-link-btn i{font-size:14px}
+.quick-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.ql-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer}
+.ql-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.ql-btn i{font-size:14px}
 
 .modal-ft{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px 20px;border-top:1px solid var(--border)}
 .btn-cancel{padding:8px 18px;border-radius:var(--radius);border:1px solid var(--border);color:var(--text2);font-size:13.5px;background:var(--surface)}
 .btn-cancel:hover{background:var(--surface2)}
 .btn-save{padding:8px 22px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 2px 8px rgba(79,70,229,.3)}
 .btn-save:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-save:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-/* CONFIRM */
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
 .confirm-box{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:370px;border:1px solid var(--border);box-shadow:var(--shadow-lg);padding:26px;animation:up .15s ease}
 .confirm-box h3{font-family:var(--font-serif);font-size:17px;margin-bottom:7px}
@@ -209,31 +178,27 @@ input,textarea,select{font-family:var(--font)}
 .btn-del{padding:8px 18px;border-radius:var(--radius);background:var(--red);color:#fff;font-size:13.5px;font-weight:600}
 .btn-del:hover{opacity:.9}
 
-/* TOAST */
 .toast-area{position:fixed;bottom:22px;right:22px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .toast{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:11px 15px;font-size:13px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;animation:tin .2s ease;pointer-events:auto;max-width:310px}
 .toast i{font-size:16px}
 .toast.ok i{color:var(--green)}.toast.err i{color:var(--red)}.toast.info i{color:var(--accent)}
 @keyframes tin{from{transform:translateX(18px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* LINK TYPE QUICK BUTTONS */
-.quick-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.ql-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer}
-.ql-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
-.ql-btn i{font-size:14px}
+/* REALTIME INDICATOR */
+.rt-dot{width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;margin-right:5px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 @media(max-width:600px){.grid{grid-template-columns:1fr}.nav{flex-wrap:wrap;gap:12px}.toolbar{flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="app">
-
   <nav class="nav">
     <div class="brand">
       <div class="brand-icon"><i class="ti ti-device-tv" aria-hidden="true"></i></div>
       <div class="brand-copy">
         <h1>Video Notes Hub</h1>
-        <p>Your personal YouTube learning journal</p>
+        <p><span class="rt-dot"></span>Live sync — all users see same data</p>
       </div>
     </div>
     <div class="nav-right">
@@ -243,7 +208,6 @@ input,textarea,select{font-family:var(--font)}
   </nav>
 
   <div class="stats" id="statsBar"></div>
-
   <div class="toolbar">
     <div class="search-box">
       <i class="ti ti-search" aria-hidden="true"></i>
@@ -255,11 +219,10 @@ input,textarea,select{font-family:var(--font)}
       <option value="az">Title A–Z</option>
     </select>
   </div>
-
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid"><div class="loading"><div class="spinner"></div>Loading notes…</div></div>
 </div>
 
-<!-- ADD/EDIT MODAL -->
+<!-- MODAL -->
 <div class="overlay" id="modalOv" style="display:none">
   <div class="modal">
     <div class="modal-hd">
@@ -271,15 +234,13 @@ input,textarea,select{font-family:var(--font)}
         <div class="fl">YouTube URL <span>required</span></div>
         <input class="fi" type="url" id="urlIn" placeholder="https://youtube.com/watch?v=...">
         <div class="err-msg" id="urlErr" style="display:none">Please enter a valid YouTube URL</div>
-        <div class="url-ok" id="urlOk" style="display:none"><i class="ti ti-circle-check-filled" aria-hidden="true"></i><span>Valid YouTube URL — opens in YouTube app</span></div>
+        <div class="url-ok" id="urlOk" style="display:none"><i class="ti ti-circle-check-filled" aria-hidden="true"></i><span>Valid YouTube URL</span></div>
       </div>
       <div class="fg">
         <div class="fl">Title <span>required</span></div>
         <input class="fi" type="text" id="titleIn" placeholder="e.g. Python Basics – Lesson 1">
         <div class="err-msg" id="titleErr" style="display:none">Title is required</div>
       </div>
-
-      <!-- LINKS MANAGER -->
       <div class="fg">
         <div class="fl">Resource Links <span>optional</span></div>
         <div class="links-mgr">
@@ -296,10 +257,9 @@ input,textarea,select{font-family:var(--font)}
           <button class="add-link-btn" onclick="addLinkRow()"><i class="ti ti-plus" aria-hidden="true"></i>Add another link</button>
         </div>
       </div>
-
       <div class="fg">
         <div class="fl">Notes <span id="notesCtr">0 chars</span></div>
-        <textarea class="fi fi-ta" id="notesIn" placeholder="Write your notes here — supports unlimited content, line breaks, code snippets…"></textarea>
+        <textarea class="fi fi-ta" id="notesIn" placeholder="Write your notes here…"></textarea>
       </div>
     </div>
     <div class="modal-ft">
@@ -313,7 +273,7 @@ input,textarea,select{font-family:var(--font)}
 <div class="confirm-overlay" id="confirmOv" style="display:none">
   <div class="confirm-box">
     <h3>Delete this note?</h3>
-    <p>This will permanently remove the video note and all its links. This cannot be undone.</p>
+    <p>Permanently remove this video note. Cannot be undone.</p>
     <div class="confirm-acts">
       <button class="btn-cancel" id="cancelDel">Keep it</button>
       <button class="btn-del" id="doDel">Delete</button>
@@ -324,62 +284,57 @@ input,textarea,select{font-family:var(--font)}
 <div class="toast-area" id="toastArea"></div>
 
 <script>
-const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co";
-const SUPABASE_KEY = "sb_publishable_GwE67gUknMnZSftwJEa5eg_A2crKSb2";
+// =============================================
+// SUPABASE CONFIG — APNI DETAILS YAHAN DALO
+// =============================================
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+// =============================================
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function testSupabase() {
-  const { data, error } = await supabaseClient
-    .from('Video')
-    .select('*');
+let notes=[], editId=null, delId=null, dark=false, linkRowCount=0;
 
-  console.log("DATA:", data);
-  console.log("ERROR FULL:", error);
-  console.log("ERROR JSON:", JSON.stringify(error, null, 2));
-  console.log("KEY:", SUPABASE_KEY);
-  console.log("KEY LENGTH:", SUPABASE_KEY.length);
+// ---------- SUPABASE FUNCTIONS ----------
+async function fetchNotes(){
+  const {data,error}=await db.from('video_notes').select('*').order('created_at',{ascending:false});
+  if(error){toast('Failed to load notes','err');return;}
+  notes=data;
+  renderGrid();
 }
 
-testSupabase();
-
-async function testInsert() {
-  const { data, error } = await supabaseClient
-    .from('Video')
-    .insert([
-      {
-        title: "Test Video",
-        channel: "Gaurav",
-        views: 100,
-        thumbnail: "https://example.com/thumb.jpg",
-        video_url: "https://youtube.com/watch?v=test"
-      }
-    ]);
-
-  console.log("INSERT DATA:", data);
-  console.log("INSERT ERROR:", error);
+async function insertNote(payload){
+  const {error}=await db.from('video_notes').insert([payload]);
+  if(error){toast('Failed to save','err');return false;}
+  return true;
 }
 
-testInsert();
-const KEY='vnhub_v3';
-let notes=[],editId=null,delId=null,dark=false;
+async function updateNote(id,payload){
+  const {error}=await db.from('video_notes').update(payload).eq('id',id);
+  if(error){toast('Failed to update','err');return false;}
+  return true;
+}
 
-function load(){try{notes=JSON.parse(localStorage.getItem(KEY))||[];}catch{notes=[];}}
-function persist(){localStorage.setItem(KEY,JSON.stringify(notes));}
+async function deleteNote(id){
+  const {error}=await db.from('video_notes').delete().eq('id',id);
+  if(error){toast('Failed to delete','err');return false;}
+  return true;
+}
 
+// REALTIME — jaise hi koi bhi user add/edit/delete kare, sab ko update milta hai
+function setupRealtime(){
+  db.channel('video_notes_changes')
+    .on('postgres_changes',{event:'*',schema:'public',table:'video_notes'},()=>{
+      fetchNotes();
+    })
+    .subscribe();
+}
+
+// ---------- HELPERS ----------
 function isYT(url){try{const h=new URL(url).hostname;return['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(h);}catch{return false;}}
-
-function ago(ts){
-  const d=Date.now()-ts,m=~~(d/6e4);
-  if(m<1)return'just now';if(m<60)return m+'m ago';
-  const h=~~(m/60);if(h<24)return h+'h ago';
-  const dd=~~(h/24);if(dd<7)return dd+'d ago';
-  return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-}
 function fmtDate(ts){return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 function toast(msg,type='info'){
   const a=document.getElementById('toastArea');
@@ -389,62 +344,35 @@ function toast(msg,type='info'){
   a.appendChild(el);
   setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(18px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200);},2700);
 }
-
 function copyTxt(txt,lbl){
   navigator.clipboard.writeText(txt).then(()=>toast(lbl+' copied!','ok')).catch(()=>{
     const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;opacity:0';
     document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast(lbl+' copied!','ok');
   });
 }
+function linkClass(url){try{const h=new URL(url).hostname;if(h.includes('github'))return'gh';if(h.includes('google'))return'drive';if(h.includes('notion'))return'notion';if(h.includes('figma'))return'figma';}catch{}return'other';}
+function linkIcon(url){try{const h=new URL(url).hostname;if(h.includes('github'))return'ti-brand-github';if(h.includes('drive.google')||h.includes('docs.google'))return'ti-brand-google-drive';if(h.includes('notion'))return'ti-brand-notion';if(h.includes('figma'))return'ti-brand-figma';}catch{}return'ti-link';}
+function linkLabel(link){if(link.label&&link.label.trim())return link.label.trim();try{return new URL(link.url).hostname.replace('www.','');}catch{return'Link';}}
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function linkClass(url){
-  try{
-    const h=new URL(url).hostname;
-    if(h.includes('github.com'))return'gh';
-    if(h.includes('google.com')||h.includes('drive.google'))return'drive';
-    if(h.includes('notion.so'))return'notion';
-    if(h.includes('figma.com'))return'figma';
-  }catch{}return'other';
-}
-function linkIcon(url){
-  try{
-    const h=new URL(url).hostname;
-    if(h.includes('github'))return'ti-brand-github';
-    if(h.includes('drive.google')||h.includes('docs.google'))return'ti-brand-google-drive';
-    if(h.includes('notion'))return'ti-brand-notion';
-    if(h.includes('figma'))return'ti-brand-figma';
-    if(h.includes('youtube'))return'ti-brand-youtube';
-    if(h.includes('vercel'))return'ti-triangle';
-    if(h.includes('netlify'))return'ti-world';
-    if(h.includes('codesandbox')||h.includes('codepen'))return'ti-code';
-  }catch{}return'ti-link';
-}
-function linkLabel(link){
-  if(link.label&&link.label.trim())return link.label.trim();
-  try{const h=new URL(link.url).hostname.replace('www.','');return h;}catch{return'Link';}
-}
-
+// ---------- RENDER ----------
 function renderStats(){
   const bar=document.getElementById('statsBar');
-  const tc=notes.reduce((s,n)=>s+n.notes.length,0);
-  const tl=notes.reduce((s,n)=>s+(n.links||[]).length,0);
+  const tc=notes.reduce((s,n)=>s+(n.notes||'').length,0);
+  const tl=notes.reduce((s,n)=>s+((n.links)||[]).length,0);
   bar.innerHTML=`
     <div class="stat"><i class="ti ti-notes" aria-hidden="true"></i><span><strong>${notes.length}</strong> notes saved</span></div>
     <div class="stat"><i class="ti ti-link" aria-hidden="true"></i><span><strong>${tl}</strong> resource links</span></div>
-    <div class="stat"><i class="ti ti-clock" aria-hidden="true"></i><span>Last saved <strong>${notes.length?ago(Math.max(...notes.map(n=>n.id))):'—'}</strong></span></div>`;
+    <div class="stat"><i class="ti ti-users" aria-hidden="true"></i><span>Shared with <strong>all users</strong></span></div>`;
 }
 
 function getList(){
   const q=document.getElementById('searchIn').value.toLowerCase().trim();
   const s=document.getElementById('sortSel').value;
   let list=[...notes];
-  if(q)list=list.filter(n=>n.title.toLowerCase().includes(q)||n.notes.toLowerCase().includes(q)||
-    (n.links||[]).some(l=>(l.label||'').toLowerCase().includes(q)||(l.url||'').toLowerCase().includes(q)));
-  if(s==='newest')list.sort((a,b)=>b.id-a.id);
-  else if(s==='oldest')list.sort((a,b)=>a.id-b.id);
-  else list.sort((a,b)=>a.title.localeCompare(b.title));
+  if(q)list=list.filter(n=>(n.title||'').toLowerCase().includes(q)||(n.notes||'').toLowerCase().includes(q)||((n.links)||[]).some(l=>(l.label||'').toLowerCase().includes(q)));
+  if(s==='newest')list.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  else if(s==='oldest')list.sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  else list.sort((a,b)=>(a.title||'').localeCompare(b.title||''));
   return list;
 }
 
@@ -457,26 +385,26 @@ function renderGrid(){
     grid.innerHTML=`<div class="empty">
       <div class="empty-ico"><i class="ti ti-movie-off" aria-hidden="true"></i></div>
       <h2>${q?'No results found':'Nothing saved yet'}</h2>
-      <p>${q?'Try a different search term.':'Save your first YouTube video with notes and resource links!'}</p>
-      ${!q?`<button class="btn-add" onclick="openModal()" style="margin:0 auto;display:flex"><i class="ti ti-plus" aria-hidden="true"></i>Add your first note</button>`:''}
+      <p>${q?'Try a different search term.':'Save your first YouTube video!'}</p>
+      ${!q?`<button class="btn-add" onclick="openModal()" style="margin:0 auto;display:flex"><i class="ti ti-plus" aria-hidden="true"></i>Add first note</button>`:''}
     </div>`;
     return;
   }
   grid.innerHTML=list.map(n=>{
-    const links=n.links||[];
-    const isLong=n.notes.length>260;
+    const links=(n.links)||[];
+    const isLong=(n.notes||'').length>260;
     const linksHTML=links.length?`
       <div class="sep"></div>
       <div class="links-section">
         <div class="links-label"><i class="ti ti-paperclip" aria-hidden="true"></i>Resources</div>
         <div class="links-list">
           ${links.filter(l=>l.url).map(l=>`
-            <a class="link-chip ${linkClass(l.url)}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" title="${esc(l.url)}">
+            <a class="link-chip ${linkClass(l.url)}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">
               <i class="ti ${linkIcon(l.url)}" aria-hidden="true"></i>${esc(linkLabel(l))}
             </a>`).join('')}
         </div>
-      </div>`:'' ;
-    return`<div class="card" data-id="${n.id}">
+      </div>`:'';
+    return`<div class="card">
       <div class="card-header">
         <a class="open-btn" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">
           <i class="ti ti-player-play-filled" aria-hidden="true"></i>
@@ -485,7 +413,7 @@ function renderGrid(){
         </a>
         <div class="meta-row">
           <span class="yt-badge"><i class="ti ti-brand-youtube" aria-hidden="true"></i>YouTube</span>
-          <span class="card-date">${fmtDate(n.id)}</span>
+          <span class="card-date">${fmtDate(n.created_at)}</span>
         </div>
         <div class="card-title">${esc(n.title)}</div>
         ${linksHTML}
@@ -497,14 +425,14 @@ function renderGrid(){
           <div class="notes-text${isLong?'':' open'}" id="nt-${n.id}">${esc(n.notes)}</div>
           ${isLong?`<div class="notes-fade" id="nf-${n.id}"></div>`:''}
         </div>
-        <div class="char-tag">${n.notes.length.toLocaleString()} characters</div>
+        <div class="char-tag">${(n.notes||'').length.toLocaleString()} characters</div>
         ${isLong?`<button class="expand-btn" onclick="doExpand(${n.id})"><i class="ti ti-chevron-down" id="ei-${n.id}" aria-hidden="true"></i><span id="et-${n.id}">Show more</span></button>`:''}
-        `:`<div class="sep"></div><div class="notes-empty">No notes yet — click edit to add some.</div>`}
+        `:`<div class="sep"></div><div class="notes-empty">No notes yet.</div>`}
       </div>
       <div class="card-footer">
         <button class="act-btn" onclick="openModal(${n.id})"><i class="ti ti-edit" aria-hidden="true"></i>Edit</button>
-        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.notes)},'Notes')"><i class="ti ti-copy" aria-hidden="true"></i>Copy Notes</button>
-        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.url)},'URL')"><i class="ti ti-link" aria-hidden="true"></i>Copy URL</button>
+        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.notes||'')},'Notes')"><i class="ti ti-copy" aria-hidden="true"></i>Copy Notes</button>
+        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.url||'')},'URL')"><i class="ti ti-link" aria-hidden="true"></i>Copy URL</button>
         <button class="act-btn del" onclick="askDel(${n.id})"><i class="ti ti-trash" aria-hidden="true"></i>Delete</button>
       </div>
     </div>`;
@@ -523,8 +451,7 @@ function doExpand(id){
   ei.className=open?'ti ti-chevron-down':'ti ti-chevron-up';
 }
 
-/* ---- MODAL LINK ROWS ---- */
-let linkRowCount=0;
+// ---------- MODAL ----------
 function addLinkRow(label='',url=''){
   const id='lr-'+Date.now()+linkRowCount++;
   const row=document.createElement('div');row.className='link-row';row.id=id;
@@ -555,11 +482,11 @@ function openModal(id=null){
   if(id!=null){
     const n=notes.find(x=>x.id===id);
     document.getElementById('modalHdTxt').textContent='Edit Note';
-    document.getElementById('urlIn').value=n.url;
-    document.getElementById('titleIn').value=n.title;
-    document.getElementById('notesIn').value=n.notes;
+    document.getElementById('urlIn').value=n.url||'';
+    document.getElementById('titleIn').value=n.title||'';
+    document.getElementById('notesIn').value=n.notes||'';
     updCtr();updOk();
-    (n.links||[]).forEach(l=>addLinkRow(l.label,l.url));
+    ((n.links)||[]).forEach(l=>addLinkRow(l.label,l.url));
   }else{
     document.getElementById('modalHdTxt').textContent='Add Video Note';
     document.getElementById('urlIn').value='';
@@ -572,12 +499,9 @@ function openModal(id=null){
 }
 function closeModal(){document.getElementById('modalOv').style.display='none';editId=null;}
 function updCtr(){document.getElementById('notesCtr').textContent=document.getElementById('notesIn').value.length.toLocaleString()+' chars';}
-function updOk(){
-  const v=document.getElementById('urlIn').value.trim();
-  document.getElementById('urlOk').style.display=v&&isYT(v)?'flex':'none';
-}
+function updOk(){const v=document.getElementById('urlIn').value.trim();document.getElementById('urlOk').style.display=v&&isYT(v)?'flex':'none';}
 
-function saveNote(){
+async function saveNote(){
   const url=document.getElementById('urlIn').value.trim();
   const title=document.getElementById('titleIn').value.trim();
   const nv=document.getElementById('notesIn').value;
@@ -590,22 +514,24 @@ function saveNote(){
   if(!title){document.getElementById('titleErr').style.display='block';document.getElementById('titleIn').classList.add('err');ok=false;}
   if(!ok)return;
   const links=getModalLinks();
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true;btn.textContent='Saving…';
   if(editId!=null){
-    const i=notes.findIndex(x=>x.id===editId);
-    notes[i]={...notes[i],url,title,notes:nv,links};
-    toast('Note updated','ok');
+    const success=await updateNote(editId,{url,title,notes:nv,links});
+    if(success){toast('Note updated','ok');closeModal();}
   }else{
-    notes.unshift({id:Date.now(),url,title,notes:nv,links});
-    toast('Video note saved!','ok');
+    const success=await insertNote({url,title,notes:nv,links});
+    if(success){toast('Video note saved!','ok');closeModal();}
   }
-  persist();renderGrid();closeModal();
+  btn.disabled=false;btn.textContent='Save Note';
 }
 
 function askDel(id){delId=id;document.getElementById('confirmOv').style.display='flex';}
-function doDel(){
-  notes=notes.filter(n=>n.id!==delId);persist();renderGrid();
+async function doDelConfirm(){
+  const success=await deleteNote(delId);
+  if(success){toast('Note deleted','err');}
   document.getElementById('confirmOv').style.display='none';
-  toast('Note deleted','err');delId=null;
+  delId=null;
 }
 
 function toggleDark(){
@@ -615,10 +541,11 @@ function toggleDark(){
   document.getElementById('themeIco').className=dark?'ti ti-moon':'ti ti-sun';
 }
 
-/* INIT */
-load();
+// ---------- INIT ----------
 if(localStorage.getItem('vnhub_dark')==='1'){dark=true;document.documentElement.setAttribute('data-dark','');document.getElementById('themeIco').className='ti ti-moon';}
-renderGrid();
+
+fetchNotes();
+setupRealtime();
 
 document.getElementById('addBtn').onclick=()=>openModal();
 document.getElementById('closeModal').onclick=closeModal;
@@ -630,7 +557,7 @@ document.getElementById('sortSel').onchange=renderGrid;
 document.getElementById('notesIn').oninput=updCtr;
 document.getElementById('urlIn').oninput=updOk;
 document.getElementById('cancelDel').onclick=()=>{document.getElementById('confirmOv').style.display='none';};
-document.getElementById('doDel').onclick=doDel;
+document.getElementById('doDel').onclick=doDelConfirm;
 document.getElementById('modalOv').onclick=e=>{if(e.target===document.getElementById('modalOv'))closeModal();};
 document.getElementById('urlIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('titleIn').focus();});
 </script>
