@@ -10,33 +10,18 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f3ef;
-  --surface:#ffffff;
-  --surface2:#f8f7f4;
-  --surface3:#eeede8;
-  --text:#18181b;
-  --text2:#52525b;
-  --text3:#a1a1aa;
-  --accent:#4f46e5;
-  --accent2:#6366f1;
-  --accent-bg:#eef2ff;
-  --accent-text:#3730a3;
-  --green:#16a34a;
-  --green-bg:#f0fdf4;
-  --green-text:#14532d;
-  --orange:#ea580c;
-  --orange-bg:#fff7ed;
-  --orange-text:#7c2d12;
-  --red:#dc2626;
-  --red-bg:#fef2f2;
-  --border:#e4e4e7;
-  --border2:#d4d4d8;
+  --bg:#f4f3ef;--surface:#ffffff;--surface2:#f8f7f4;--surface3:#eeede8;
+  --text:#18181b;--text2:#52525b;--text3:#a1a1aa;
+  --accent:#4f46e5;--accent2:#6366f1;--accent-bg:#eef2ff;--accent-text:#3730a3;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-text:#14532d;
+  --orange:#ea580c;--orange-bg:#fff7ed;--orange-text:#7c2d12;
+  --red:#dc2626;--red-bg:#fef2f2;
+  --border:#e4e4e7;--border2:#d4d4d8;
   --radius:10px;--radius-lg:16px;--radius-xl:20px;
   --shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.06);
   --shadow-md:0 4px 8px rgba(0,0,0,0.06),0 8px 24px rgba(0,0,0,0.08);
   --shadow-lg:0 8px 16px rgba(0,0,0,0.08),0 16px 40px rgba(0,0,0,0.12);
-  --font:'Plus Jakarta Sans',sans-serif;
-  --font-serif:'Lora',serif;
+  --font:'Plus Jakarta Sans',sans-serif;--font-serif:'Lora',serif;
 }
 [data-dark]{
   --bg:#0f0f11;--surface:#18181b;--surface2:#1f1f23;--surface3:#27272a;
@@ -84,7 +69,11 @@ input,textarea,select{font-family:var(--font)}
 .search-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
 .search-box input::placeholder{color:var(--text3)}
 .sort-sel{padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);color:var(--text);font-size:13.5px;outline:none;box-shadow:var(--shadow)}
-.sort-sel:focus{border-color:var(--accent)}
+
+/* LOADING */
+.loading{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3)}
+.loading i{font-size:32px;display:block;margin-bottom:12px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px}
@@ -93,49 +82,29 @@ input,textarea,select{font-family:var(--font)}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;overflow:hidden;box-shadow:var(--shadow)}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
 
-.card-header{padding:18px 18px 0}
-
-/* VIDEO BUTTON */
-.open-btn{display:flex;align-items:center;gap:9px;width:100%;padding:13px 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;font-size:14px;font-weight:700;text-decoration:none;margin-bottom:14px;transition:all .15s;box-shadow:0 2px 10px rgba(79,70,229,0.28);letter-spacing:0.1px}
+.card-header{padding:14px 18px 0}
+.rank-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:var(--accent-bg);color:var(--accent-text);letter-spacing:0.3px;margin-bottom:8px}
+.open-btn{display:flex;align-items:center;gap:9px;width:100%;padding:11px 16px;border-radius:12px;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);color:#fff;font-size:14px;font-weight:700;text-decoration:none;margin-bottom:12px;transition:all .15s;box-shadow:0 2px 10px rgba(79,70,229,0.28)}
 .open-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(79,70,229,0.42);filter:brightness(1.06)}
 .open-btn i:first-child{font-size:18px}
 .open-btn .ext-icon{margin-left:auto;opacity:.8;font-size:14px}
-
-/* META ROW */
-.meta-row{display:flex;align-items:center;gap:7px;margin-bottom:9px}
-.yt-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#ff0000;color:#fff;letter-spacing:0.3px}
+.meta-row{display:flex;align-items:center;gap:7px;margin-bottom:9px;flex-wrap:wrap}
+.yt-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#ff0000;color:#fff}
 .yt-badge i{font-size:12px}
-.card-date{font-size:11.5px;color:var(--text3);margin-left:auto}
+.views-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:var(--green-bg);color:var(--green-text);border:1px solid rgba(22,163,74,.2)}
+.card-title{font-family:var(--font-serif);font-size:15px;font-weight:600;line-height:1.45;color:var(--text);margin-bottom:10px}
 
-/* TITLE */
-.card-title{font-family:var(--font-serif);font-size:16px;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:12px}
-
-/* LINKS SECTION */
-.links-section{margin-bottom:0}
-.links-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px}
-.links-label i{font-size:13px}
-.links-list{display:flex;flex-wrap:wrap;gap:6px}
-.link-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;border:1px solid var(--border);background:var(--surface2);color:var(--text2);transition:all .13s;max-width:180px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.link-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
-.link-chip i{font-size:14px;flex-shrink:0}
-.link-chip.gh{border-color:#d0d7de;background:#f6f8fa;color:#24292f}
-.link-chip.gh:hover{border-color:#0969da;color:#0969da;background:#ddf4ff}
-.link-chip.drive{background:#e8f0fe;border-color:#c5d3f0;color:#1a73e8}
-.link-chip.drive:hover{background:#d2e3fc}
-.link-chip.notion{background:#f7f6f3;border-color:#e0dedb;color:#37352f}
-.link-chip.notion:hover{background:#eae9e6}
-.link-chip.figma{background:#fff4f2;border-color:#ffd1c8;color:#f24e1e}
-.link-chip.figma:hover{background:#ffe8e3}
-.link-chip.other{background:var(--surface2);color:var(--text2)}
-[data-dark] .link-chip.gh{background:#21262d;border-color:#30363d;color:#c9d1d9}
-[data-dark] .link-chip.drive{background:#1a237e22;border-color:#3949ab55;color:#90caf9}
-[data-dark] .link-chip.notion{background:#2c2c2c;border-color:#3c3c3c;color:#e0e0e0}
-[data-dark] .link-chip.figma{background:#2d1a18;border-color:#6b2c20;color:#ff7262}
+/* SIMILAR VIDEO */
+.similar-section{margin-bottom:4px}
+.similar-label{font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.similar-link{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;border:1px solid #ff000033;background:#ff00000d;color:#cc0000;transition:all .13s;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.similar-link:hover{background:#ff00001a;border-color:#ff0000}
+.similar-link i{font-size:14px;flex-shrink:0}
+[data-dark] .similar-link{background:#ff000022;border-color:#ff000044;color:#ff6b6b}
 
 /* CARD BODY */
-.card-body{padding:12px 18px 0;flex:1}
-.sep{height:1px;background:var(--border);margin:12px 0}
-
+.card-body{padding:10px 18px 0;flex:1}
+.sep{height:1px;background:var(--border);margin:10px 0}
 .notes-wrap{position:relative}
 .notes-text{font-size:13px;line-height:1.7;color:var(--text2);padding:12px;background:var(--surface2);border-radius:10px;max-height:130px;overflow:hidden;white-space:pre-wrap;word-break:break-word;border:1px solid var(--border)}
 .notes-text.open{max-height:none}
@@ -147,7 +116,7 @@ input,textarea,select{font-family:var(--font)}
 .expand-btn i{font-size:14px}
 
 /* CARD FOOTER */
-.card-footer{display:flex;gap:5px;flex-wrap:wrap;padding:12px 18px 16px;border-top:1px solid var(--border);margin-top:12px}
+.card-footer{display:flex;gap:5px;flex-wrap:wrap;padding:10px 18px 14px;border-top:1px solid var(--border);margin-top:10px}
 .act-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--text2);border:1px solid var(--border);background:var(--surface2);font-family:var(--font)}
 .act-btn:hover{background:var(--surface3);color:var(--text);border-color:var(--border2)}
 .act-btn.del:hover{background:var(--red-bg);color:var(--red);border-color:var(--red)}
@@ -160,45 +129,57 @@ input,textarea,select{font-family:var(--font)}
 .empty h2{font-family:var(--font-serif);font-size:22px;margin-bottom:8px}
 .empty p{color:var(--text2);font-size:14px;max-width:300px;margin:0 auto 22px}
 
-/* OVERLAY */
+/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto;backdrop-filter:blur(3px)}
-.modal{background:var(--surface);border-radius:var(--radius-xl);width:100%;max-width:640px;border:1px solid var(--border);box-shadow:var(--shadow-lg);animation:up .2s ease}
+.modal{background:var(--surface);border-radius:var(--radius-xl);width:100%;max-width:660px;border:1px solid var(--border);box-shadow:var(--shadow-lg);animation:up .2s ease}
 @keyframes up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
 .modal-hd{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 16px;border-bottom:1px solid var(--border)}
 .modal-hd h2{font-family:var(--font-serif);font-size:17px;font-weight:600}
-.modal-bd{padding:22px}
-.fg{margin-bottom:16px}
-.fl{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:600;color:var(--text2);margin-bottom:6px;letter-spacing:0.2px}
+.modal-bd{padding:20px 22px}
+.fg{margin-bottom:14px}
+.fl{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:600;color:var(--text2);margin-bottom:6px}
 .fl span{font-weight:400;color:var(--text3)}
 .fi{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface2);color:var(--text);font-size:13.5px;outline:none}
 .fi:focus{border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
 .fi::placeholder{color:var(--text3)}
 .fi.err{border-color:var(--red)}
-.fi-ta{min-height:160px;resize:vertical;line-height:1.65}
+.fi-ta{min-height:140px;resize:vertical;line-height:1.65}
+.fi:read-only{background:var(--surface3);color:var(--text2);cursor:default}
 .err-msg{font-size:12px;color:var(--red);margin-top:4px}
-.url-ok{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--green-bg);border-radius:7px;margin-top:7px;font-size:12px;color:var(--green-text);border:1px solid rgba(22,163,74,.2)}
-.url-ok i{font-size:14px;color:var(--green)}
-
-/* LINKS MANAGER IN MODAL */
-.links-mgr{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px}
-.links-mgr-title{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:5px}
-.links-mgr-title i{font-size:14px;color:var(--accent)}
-.link-row{display:flex;gap:7px;margin-bottom:7px;align-items:center}
-.link-row input{flex:1;padding:7px 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none}
-.link-row input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(79,70,229,.1)}
-.link-row input::placeholder{color:var(--text3)}
-.link-del-btn{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--text3);border:1px solid var(--border);background:var(--surface);flex-shrink:0}
-.link-del-btn:hover{color:var(--red);border-color:var(--red);background:var(--red-bg)}
-.link-del-btn i{font-size:14px}
-.add-link-btn{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:var(--accent);border:1px dashed var(--accent);background:transparent;margin-top:4px}
-.add-link-btn:hover{background:var(--accent-bg)}
-.add-link-btn i{font-size:14px}
-
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.two-col{grid-template-columns:1fr}}
 .modal-ft{display:flex;gap:8px;justify-content:flex-end;padding:14px 22px 20px;border-top:1px solid var(--border)}
 .btn-cancel{padding:8px 18px;border-radius:var(--radius);border:1px solid var(--border);color:var(--text2);font-size:13.5px;background:var(--surface)}
 .btn-cancel:hover{background:var(--surface2)}
 .btn-save{padding:8px 22px;border-radius:var(--radius);background:var(--accent);color:#fff;font-size:13.5px;font-weight:600;box-shadow:0 2px 8px rgba(79,70,229,.3)}
 .btn-save:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-save:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+/* AUTO-FETCH STATUS */
+.fetch-status{display:flex;align-items:center;gap:7px;padding:8px 12px;border-radius:8px;font-size:12px;margin-top:7px;border:1px solid transparent}
+.fetch-status.loading{background:var(--accent-bg);color:var(--accent-text);border-color:rgba(79,70,229,.2)}
+.fetch-status.ok{background:var(--green-bg);color:var(--green-text);border-color:rgba(22,163,74,.2)}
+.fetch-status.err{background:var(--red-bg);color:var(--red);border-color:rgba(220,38,38,.2)}
+.fetch-status i{font-size:14px}
+.fetch-status i.spin{animation:spin 1s linear infinite}
+
+/* VIDEO PREVIEW IN MODAL */
+.video-preview{display:flex;gap:12px;padding:10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border);margin-top:8px;align-items:center}
+.video-preview img{width:100px;height:56px;object-fit:cover;border-radius:6px;flex-shrink:0;background:var(--surface3)}
+.video-preview-info{flex:1;min-width:0}
+.video-preview-title{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.video-preview-meta{font-size:11.5px;color:var(--text3)}
+
+/* SIMILAR SUGGESTIONS */
+.similar-suggestions{background:var(--surface2);border:1px solid var(--border);border-radius:10px;margin-top:8px;overflow:hidden;max-height:260px;overflow-y:auto}
+.sugg-item{display:flex;gap:10px;padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .12s;align-items:center}
+.sugg-item:last-child{border-bottom:none}
+.sugg-item:hover{background:var(--accent-bg)}
+.sugg-thumb{width:72px;height:42px;object-fit:cover;border-radius:5px;flex-shrink:0;background:var(--surface3)}
+.sugg-info{flex:1;min-width:0}
+.sugg-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sugg-channel{font-size:11px;color:var(--text3);margin-top:2px}
+.sugg-views{font-size:11px;color:var(--accent);margin-top:1px}
 
 /* CONFIRM */
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:150;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -216,29 +197,22 @@ input,textarea,select{font-family:var(--font)}
 .toast.ok i{color:var(--green)}.toast.err i{color:var(--red)}.toast.info i{color:var(--accent)}
 @keyframes tin{from{transform:translateX(18px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* LINK TYPE QUICK BUTTONS */
-.quick-links{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.ql-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer}
-.ql-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
-.ql-btn i{font-size:14px}
-
 @media(max-width:600px){.grid{grid-template-columns:1fr}.nav{flex-wrap:wrap;gap:12px}.toolbar{flex-direction:column}}
 </style>
 </head>
 <body>
 <div class="app">
-
   <nav class="nav">
     <div class="brand">
-      <div class="brand-icon"><i class="ti ti-device-tv" aria-hidden="true"></i></div>
+      <div class="brand-icon"><i class="ti ti-device-tv"></i></div>
       <div class="brand-copy">
         <h1>Video Notes Hub</h1>
         <p>Your personal YouTube learning journal</p>
       </div>
     </div>
     <div class="nav-right">
-      <button class="icon-btn" id="themeBtn" title="Toggle dark mode"><i class="ti ti-sun" id="themeIco" aria-hidden="true"></i></button>
-      <button class="btn-add" id="addBtn"><i class="ti ti-plus" aria-hidden="true"></i>Add Note</button>
+      <button class="icon-btn" id="themeBtn" title="Toggle dark mode"><i class="ti ti-sun" id="themeIco"></i></button>
+      <button class="btn-add" id="addBtn"><i class="ti ti-plus"></i>Add Note</button>
     </div>
   </nav>
 
@@ -246,17 +220,21 @@ input,textarea,select{font-family:var(--font)}
 
   <div class="toolbar">
     <div class="search-box">
-      <i class="ti ti-search" aria-hidden="true"></i>
-      <input type="text" id="searchIn" placeholder="Search titles and notes…">
+      <i class="ti ti-search"></i>
+      <input type="text" id="searchIn" placeholder="Search titles, channels and notes…">
     </div>
     <select class="sort-sel" id="sortSel">
+      <option value="rank">By Rank</option>
       <option value="newest">Newest first</option>
       <option value="oldest">Oldest first</option>
       <option value="az">Title A–Z</option>
+      <option value="views">Most Views</option>
     </select>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+    <div class="loading"><i class="ti ti-loader-2"></i>Loading your notes…</div>
+  </div>
 </div>
 
 <!-- ADD/EDIT MODAL -->
@@ -264,43 +242,67 @@ input,textarea,select{font-family:var(--font)}
   <div class="modal">
     <div class="modal-hd">
       <h2 id="modalHdTxt">Add Video Note</h2>
-      <button class="icon-btn" id="closeModal" style="border:none;background:none"><i class="ti ti-x" aria-hidden="true"></i></button>
+      <button class="icon-btn" id="closeModal" style="border:none;background:none"><i class="ti ti-x"></i></button>
     </div>
     <div class="modal-bd">
+
+      <!-- YouTube URL with auto-fetch -->
       <div class="fg">
-        <div class="fl">YouTube URL <span>required</span></div>
+        <div class="fl">YouTube URL <span>required — paste to auto-fill everything</span></div>
         <input class="fi" type="url" id="urlIn" placeholder="https://youtube.com/watch?v=...">
         <div class="err-msg" id="urlErr" style="display:none">Please enter a valid YouTube URL</div>
-        <div class="url-ok" id="urlOk" style="display:none"><i class="ti ti-circle-check-filled" aria-hidden="true"></i><span>Valid YouTube URL — opens in YouTube app</span></div>
-      </div>
-      <div class="fg">
-        <div class="fl">Title <span>required</span></div>
-        <input class="fi" type="text" id="titleIn" placeholder="e.g. Python Basics – Lesson 1">
-        <div class="err-msg" id="titleErr" style="display:none">Title is required</div>
-      </div>
-
-      <!-- LINKS MANAGER -->
-      <div class="fg">
-        <div class="fl">Resource Links <span>optional</span></div>
-        <div class="links-mgr">
-          <div class="links-mgr-title"><i class="ti ti-link" aria-hidden="true"></i>Quick add</div>
-          <div class="quick-links">
-            <button class="ql-btn" onclick="quickLink('GitHub','https://github.com/')"><i class="ti ti-brand-github" aria-hidden="true"></i>GitHub</button>
-            <button class="ql-btn" onclick="quickLink('Google Drive','https://drive.google.com/')"><i class="ti ti-brand-google-drive" aria-hidden="true"></i>Drive</button>
-            <button class="ql-btn" onclick="quickLink('Notion','https://notion.so/')"><i class="ti ti-brand-notion" aria-hidden="true"></i>Notion</button>
-            <button class="ql-btn" onclick="quickLink('Figma','https://figma.com/')"><i class="ti ti-brand-figma" aria-hidden="true"></i>Figma</button>
-            <button class="ql-btn" onclick="quickLink('Slides','https://docs.google.com/presentation/')"><i class="ti ti-presentation" aria-hidden="true"></i>Slides</button>
-            <button class="ql-btn" onclick="quickLink('Docs','https://docs.google.com/')"><i class="ti ti-file-text" aria-hidden="true"></i>Docs</button>
+        <div class="fetch-status" id="fetchStatus" style="display:none">
+          <i class="ti ti-loader-2 spin" id="fetchIcon"></i>
+          <span id="fetchMsg">Fetching video info…</span>
+        </div>
+        <!-- Video preview after fetch -->
+        <div class="video-preview" id="videoPreview" style="display:none">
+          <img id="previewThumb" src="" alt="thumbnail">
+          <div class="video-preview-info">
+            <div class="video-preview-title" id="previewTitle"></div>
+            <div class="video-preview-meta" id="previewMeta"></div>
           </div>
-          <div id="linkRows"></div>
-          <button class="add-link-btn" onclick="addLinkRow()"><i class="ti ti-plus" aria-hidden="true"></i>Add another link</button>
         </div>
       </div>
 
+      <!-- Title (auto-filled, editable) -->
+      <div class="fg">
+        <div class="fl">Title <span>required</span></div>
+        <input class="fi" type="text" id="titleIn" placeholder="Auto-filled from YouTube…">
+        <div class="err-msg" id="titleErr" style="display:none">Title is required</div>
+      </div>
+
+      <!-- Video ID + Rank -->
+      <div class="two-col">
+        <div class="fg">
+          <div class="fl">Video ID <span>auto-filled</span></div>
+          <input class="fi" type="text" id="videoIdIn" placeholder="Auto-filled…" readonly>
+        </div>
+        <div class="fg">
+          <div class="fl">Rank <span>optional</span></div>
+          <input class="fi" type="number" id="rankIn" placeholder="e.g. 1" min="1">
+        </div>
+      </div>
+
+      <!-- Views (auto-filled) -->
+      <div class="fg">
+        <div class="fl">Views <span>auto-filled</span></div>
+        <input class="fi" type="number" id="viewsIn" placeholder="Auto-filled…" readonly>
+      </div>
+
+      <!-- Similar Video URL with suggestions -->
+      <div class="fg">
+        <div class="fl">Similar Video <span>paste URL or pick from suggestions below</span></div>
+        <input class="fi" type="url" id="similarIn" placeholder="https://youtube.com/watch?v=...">
+        <div id="similarSuggestions" style="display:none"></div>
+      </div>
+
+      <!-- Notes -->
       <div class="fg">
         <div class="fl">Notes <span id="notesCtr">0 chars</span></div>
-        <textarea class="fi fi-ta" id="notesIn" placeholder="Write your notes here — supports unlimited content, line breaks, code snippets…"></textarea>
+        <textarea class="fi fi-ta" id="notesIn" placeholder="Write your notes here…"></textarea>
       </div>
+
     </div>
     <div class="modal-ft">
       <button class="btn-cancel" id="cancelModal">Cancel</button>
@@ -313,7 +315,7 @@ input,textarea,select{font-family:var(--font)}
 <div class="confirm-overlay" id="confirmOv" style="display:none">
   <div class="confirm-box">
     <h3>Delete this note?</h3>
-    <p>This will permanently remove the video note and all its links. This cannot be undone.</p>
+    <p>This will permanently remove the video note from Supabase. This cannot be undone.</p>
     <div class="confirm-acts">
       <button class="btn-cancel" id="cancelDel">Keep it</button>
       <button class="btn-del" id="doDel">Delete</button>
@@ -324,130 +326,279 @@ input,textarea,select{font-family:var(--font)}
 <div class="toast-area" id="toastArea"></div>
 
 <script>
+/* ═══════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════ */
 const SUPABASE_URL = "https://xfijybpwximzxsgoqeuh.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhmaWp5YnB3eGltenhzZ29xZXVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNzQ3MTUsImV4cCI6MjA5NjY1MDcxNX0.SVmRN9vTD9T-1gjM-g2XU8AiE6e6EUV90yv1T25F1W4";
+const TABLE       = "video_notes";
+const YT_API_KEY  = "AIzaSyBEY4M3tGDMgd-IJ-3_T1-lwKj04QDgSvo";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function testSupabase() {
-  const {data,error}=await db.from('video_notes')
-    .from('video_notes')
-    .select('*');
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+let notes = [], editId = null, delId = null, dark = false;
+let fetchTimer = null; // debounce timer for URL fetch
 
-  console.log("DATA:", data);
-  console.log("ERROR FULL:", error);
-  console.log("ERROR JSON:", JSON.stringify(error, null, 2));
-  console.log("KEY:", SUPABASE_KEY);
-  console.log("KEY LENGTH:", SUPABASE_KEY.length);
+/* ═══════════════════════════════════════════════
+   SUPABASE CRUD
+═══════════════════════════════════════════════ */
+async function fetchNotes() {
+  const { data, error } = await db.from(TABLE).select('*');
+  if (error) { toast('Load failed: ' + error.message, 'err'); return []; }
+  return data || [];
+}
+async function insertNote(p) {
+  const { data, error } = await db.from(TABLE).insert([p]).select();
+  if (error) throw error;
+  return data[0];
+}
+async function updateNote(id, p) {
+  const { data, error } = await db.from(TABLE).update(p).eq('id', id).select();
+  if (error) throw error;
+  return data[0];
+}
+async function deleteNote(id) {
+  const { error } = await db.from(TABLE).delete().eq('id', id);
+  if (error) throw error;
 }
 
-testSupabase();
-
-async function testInsert() {
-  const { data, error } = await supabaseClient
-    .from('video_notes')
-    .insert([
-      {
-        title: "Test Video",
-        channel: "Gaurav",
-        views: 100,
-        thumbnail: "https://example.com/thumb.jpg",
-        video_url: "https://youtube.com/watch?v=test"
-      }
-    ]);
-
-  console.log("INSERT DATA:", data);
-  console.log("INSERT ERROR:", error);
+/* ═══════════════════════════════════════════════
+   YOUTUBE API HELPERS
+═══════════════════════════════════════════════ */
+function extractVideoId(url) {
+  try {
+    const u = new URL(url);
+    if (u.hostname === 'youtu.be') return u.pathname.slice(1).split('?')[0];
+    return u.searchParams.get('v') || '';
+  } catch { return ''; }
 }
 
-testInsert();
-const KEY='vnhub_v3';
-let notes=[],editId=null,delId=null,dark=false;
+function isYT(url) {
+  try {
+    const h = new URL(url).hostname;
+    return ['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(h);
+  } catch { return false; }
+}
 
-function load(){try{notes=JSON.parse(localStorage.getItem(KEY))||[];}catch{notes=[];}}
-function persist(){localStorage.setItem(KEY,JSON.stringify(notes));}
+async function fetchYouTubeData(videoId) {
+  const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoId}&key=${YT_API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('YouTube API error: ' + res.status);
+  const data = await res.json();
+  if (!data.items || !data.items.length) throw new Error('Video not found');
+  const item = data.items[0];
+  return {
+    title:      item.snippet.title,
+    views:      parseInt(item.statistics.viewCount) || 0,
+    thumbnail:  item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '',
+    videoId:    videoId,
+  };
+}
 
-function isYT(url){try{const h=new URL(url).hostname;return['youtube.com','www.youtube.com','youtu.be','m.youtube.com'].includes(h);}catch{return false;}}
+async function fetchRelatedVideos(videoId) {
+  // Use search with relatedToVideoId
+  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId=${videoId}&type=video&maxResults=5&key=${YT_API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) return [];
+  const data = await res.json();
+  if (!data.items) return [];
+  // fetch view counts for related
+  const ids = data.items.map(i => i.id.videoId).join(',');
+  if (!ids) return [];
+  const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${ids}&key=${YT_API_KEY}`;
+  const statsRes = await fetch(statsUrl);
+  const statsData = statsRes.ok ? await statsRes.json() : { items: [] };
+  const statsMap = {};
+  (statsData.items || []).forEach(i => statsMap[i.id] = i.statistics);
 
-function ago(ts){
-  const d=Date.now()-ts,m=~~(d/6e4);
+  return data.items.map(i => ({
+    videoId:   i.id.videoId,
+    title:     i.snippet.title,
+    thumbnail: i.snippet.thumbnails?.medium?.url || i.snippet.thumbnails?.default?.url || '',
+    views:     parseInt(statsMap[i.id.videoId]?.viewCount) || 0,
+    url:       `https://www.youtube.com/watch?v=${i.id.videoId}`,
+  }));
+}
+
+/* ═══════════════════════════════════════════════
+   AUTO-FILL ON URL PASTE
+═══════════════════════════════════════════════ */
+function setFetchStatus(type, msg) {
+  const el = document.getElementById('fetchStatus');
+  const icon = document.getElementById('fetchIcon');
+  const msgEl = document.getElementById('fetchMsg');
+  if (!type) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.className = 'fetch-status ' + type;
+  msgEl.textContent = msg;
+  if (type === 'loading') {
+    icon.className = 'ti ti-loader-2 spin';
+  } else if (type === 'ok') {
+    icon.className = 'ti ti-circle-check-filled';
+  } else {
+    icon.className = 'ti ti-circle-x-filled';
+  }
+}
+
+function showVideoPreview(info) {
+  const pv = document.getElementById('videoPreview');
+  document.getElementById('previewThumb').src = info.thumbnail;
+  document.getElementById('previewTitle').textContent = info.title;
+  document.getElementById('previewMeta').textContent =
+    fmtViews(info.views) + ' views';
+  pv.style.display = 'flex';
+}
+
+function hideVideoPreview() {
+  document.getElementById('videoPreview').style.display = 'none';
+}
+
+async function onUrlInput() {
+  const url = document.getElementById('urlIn').value.trim();
+  clearTimeout(fetchTimer);
+  hideVideoPreview();
+  setFetchStatus(null);
+  document.getElementById('similarSuggestions').style.display = 'none';
+
+  if (!url || !isYT(url)) return;
+  const videoId = extractVideoId(url);
+  if (!videoId) return;
+
+  // Debounce 600ms
+  fetchTimer = setTimeout(async () => {
+    setFetchStatus('loading', 'Fetching video info from YouTube…');
+    try {
+      const info = await fetchYouTubeData(videoId);
+
+      // Auto-fill fields
+      document.getElementById('titleIn').value   = info.title;
+      document.getElementById('videoIdIn').value = info.videoId;
+      document.getElementById('viewsIn').value    = info.views;
+
+      setFetchStatus('ok', `Auto-filled! "${info.title.substring(0,50)}${info.title.length>50?'…':''}"`);
+      showVideoPreview(info);
+
+      // Fetch related/similar videos
+      loadSimilarSuggestions(videoId);
+
+    } catch (e) {
+      setFetchStatus('err', 'Could not fetch: ' + e.message);
+    }
+  }, 600);
+}
+
+async function loadSimilarSuggestions(videoId) {
+  const container = document.getElementById('similarSuggestions');
+  container.style.display = 'block';
+  container.innerHTML = '<div style="padding:10px 12px;font-size:12px;color:var(--text3)"><i class="ti ti-loader-2" style="animation:spin 1s linear infinite;display:inline-block;margin-right:5px"></i>Loading similar video suggestions…</div>';
+  try {
+    const related = await fetchRelatedVideos(videoId);
+    if (!related.length) {
+      container.innerHTML = '<div style="padding:10px 12px;font-size:12px;color:var(--text3)">No suggestions found.</div>';
+      return;
+    }
+    container.innerHTML = '<div style="padding:8px 12px 4px;font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase">Pick a similar video</div>' +
+      '<div class="similar-suggestions">' +
+      related.map(v => `
+        <div class="sugg-item" onclick="selectSimilar('${esc(v.url)}')">
+          <img class="sugg-thumb" src="${esc(v.thumbnail)}" alt="" loading="lazy">
+          <div class="sugg-info">
+            <div class="sugg-title">${esc(v.title)}</div>
+            <div class="sugg-views"><i class="ti ti-eye" style="font-size:11px"></i> ${fmtViews(v.views)} views</div>
+          </div>
+        </div>`).join('') +
+      '</div>';
+  } catch (e) {
+    container.innerHTML = '<div style="padding:10px 12px;font-size:12px;color:var(--text3)">Could not load suggestions.</div>';
+  }
+}
+
+function selectSimilar(url) {
+  document.getElementById('similarIn').value = url;
+  document.getElementById('similarSuggestions').style.display = 'none';
+  toast('Similar video selected!', 'ok');
+}
+
+/* ═══════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════ */
+function fmtViews(n) {
+  if (!n && n !== 0) return null;
+  const num = parseInt(n);
+  if (isNaN(num)) return null;
+  if (num >= 1e9) return (num/1e9).toFixed(1)+'B';
+  if (num >= 1e6) return (num/1e6).toFixed(1)+'M';
+  if (num >= 1e3) return (num/1e3).toFixed(1)+'K';
+  return num.toLocaleString();
+}
+function fmtDate(ts) {
+  if (!ts) return '';
+  return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function ago(ts) {
+  if (!ts) return '—';
+  const d=Date.now()-new Date(ts).getTime(),m=~~(d/6e4);
   if(m<1)return'just now';if(m<60)return m+'m ago';
   const h=~~(m/60);if(h<24)return h+'h ago';
   const dd=~~(h/24);if(dd<7)return dd+'d ago';
-  return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+  return fmtDate(ts);
 }
-function fmtDate(ts){return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
-
 function toast(msg,type='info'){
   const a=document.getElementById('toastArea');
   const icons={ok:'ti-circle-check-filled',err:'ti-circle-x-filled',info:'ti-info-circle-filled'};
   const el=document.createElement('div');el.className='toast '+type;
-  el.innerHTML=`<i class="ti ${icons[type]}" aria-hidden="true"></i><span>${msg}</span>`;
+  el.innerHTML=`<i class="ti ${icons[type]}"></i><span>${msg}</span>`;
   a.appendChild(el);
-  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(18px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200);},2700);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(18px)';el.style.transition='all .2s';setTimeout(()=>el.remove(),200);},2800);
 }
-
 function copyTxt(txt,lbl){
-  navigator.clipboard.writeText(txt).then(()=>toast(lbl+' copied!','ok')).catch(()=>{
-    const t=document.createElement('textarea');t.value=txt;t.style.cssText='position:fixed;opacity:0';
-    document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();toast(lbl+' copied!','ok');
+  navigator.clipboard.writeText(txt||'').then(()=>toast(lbl+' copied!','ok')).catch(()=>{
+    const t=document.createElement('textarea');t.value=txt||'';
+    t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();
+    document.execCommand('copy');t.remove();toast(lbl+' copied!','ok');
   });
 }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-
-function linkClass(url){
-  try{
-    const h=new URL(url).hostname;
-    if(h.includes('github.com'))return'gh';
-    if(h.includes('google.com')||h.includes('drive.google'))return'drive';
-    if(h.includes('notion.so'))return'notion';
-    if(h.includes('figma.com'))return'figma';
-  }catch{}return'other';
-}
-function linkIcon(url){
-  try{
-    const h=new URL(url).hostname;
-    if(h.includes('github'))return'ti-brand-github';
-    if(h.includes('drive.google')||h.includes('docs.google'))return'ti-brand-google-drive';
-    if(h.includes('notion'))return'ti-brand-notion';
-    if(h.includes('figma'))return'ti-brand-figma';
-    if(h.includes('youtube'))return'ti-brand-youtube';
-    if(h.includes('vercel'))return'ti-triangle';
-    if(h.includes('netlify'))return'ti-world';
-    if(h.includes('codesandbox')||h.includes('codepen'))return'ti-code';
-  }catch{}return'ti-link';
-}
-function linkLabel(link){
-  if(link.label&&link.label.trim())return link.label.trim();
-  try{const h=new URL(link.url).hostname.replace('www.','');return h;}catch{return'Link';}
-}
-
+/* ═══════════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════════ */
 function renderStats(){
   const bar=document.getElementById('statsBar');
-  const tc=notes.reduce((s,n)=>s+n.notes.length,0);
-  const tl=notes.reduce((s,n)=>s+(n.links||[]).length,0);
+  const tv=notes.reduce((s,n)=>s+(parseInt(n.views)||0),0);
+  const latest=notes.length?notes.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0]:null;
   bar.innerHTML=`
-    <div class="stat"><i class="ti ti-notes" aria-hidden="true"></i><span><strong>${notes.length}</strong> notes saved</span></div>
-    <div class="stat"><i class="ti ti-link" aria-hidden="true"></i><span><strong>${tl}</strong> resource links</span></div>
-    <div class="stat"><i class="ti ti-clock" aria-hidden="true"></i><span>Last saved <strong>${notes.length?ago(Math.max(...notes.map(n=>n.id))):'—'}</strong></span></div>`;
+    <div class="stat"><i class="ti ti-notes"></i><span><strong>${notes.length}</strong> notes saved</span></div>
+    <div class="stat"><i class="ti ti-eye"></i><span><strong>${fmtViews(tv)||0}</strong> total views</span></div>
+    <div class="stat"><i class="ti ti-clock"></i><span>Last saved <strong>${latest?ago(latest.created_at):'—'}</strong></span></div>`;
 }
 
+/* ═══════════════════════════════════════════════
+   FILTER / SORT
+═══════════════════════════════════════════════ */
 function getList(){
   const q=document.getElementById('searchIn').value.toLowerCase().trim();
   const s=document.getElementById('sortSel').value;
   let list=[...notes];
-  if(q)list=list.filter(n=>n.title.toLowerCase().includes(q)||n.notes.toLowerCase().includes(q)||
-    (n.links||[]).some(l=>(l.label||'').toLowerCase().includes(q)||(l.url||'').toLowerCase().includes(q)));
-  if(s==='newest')list.sort((a,b)=>b.id-a.id);
-  else if(s==='oldest')list.sort((a,b)=>a.id-b.id);
-  else list.sort((a,b)=>a.title.localeCompare(b.title));
+  if(q)list=list.filter(n=>
+    (n.title||'').toLowerCase().includes(q)||
+    (n.notes||'').toLowerCase().includes(q)||
+    (n['Similar Video']||'').toLowerCase().includes(q)
+  );
+  if(s==='rank')list.sort((a,b)=>(a.Rank||9999)-(b.Rank||9999));
+  else if(s==='newest')list.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+  else if(s==='oldest')list.sort((a,b)=>new Date(a.created_at||0)-new Date(b.created_at||0));
+  else if(s==='az')list.sort((a,b)=>(a.title||'').localeCompare(b.title||''));
+  else if(s==='views')list.sort((a,b)=>(parseInt(b.views)||0)-(parseInt(a.views)||0));
   return list;
 }
 
+/* ═══════════════════════════════════════════════
+   RENDER GRID
+═══════════════════════════════════════════════ */
 function renderGrid(){
   const grid=document.getElementById('grid');
   renderStats();
@@ -455,57 +606,59 @@ function renderGrid(){
   if(!list.length){
     const q=document.getElementById('searchIn').value.trim();
     grid.innerHTML=`<div class="empty">
-      <div class="empty-ico"><i class="ti ti-movie-off" aria-hidden="true"></i></div>
+      <div class="empty-ico"><i class="ti ti-movie-off"></i></div>
       <h2>${q?'No results found':'Nothing saved yet'}</h2>
-      <p>${q?'Try a different search term.':'Save your first YouTube video with notes and resource links!'}</p>
-      ${!q?`<button class="btn-add" onclick="openModal()" style="margin:0 auto;display:flex"><i class="ti ti-plus" aria-hidden="true"></i>Add your first note</button>`:''}
+      <p>${q?'Try a different search term.':'Paste a YouTube URL to auto-fill and save!'}</p>
+      ${!q?`<button class="btn-add" onclick="openModal()" style="margin:0 auto;display:flex"><i class="ti ti-plus"></i>Add your first note</button>`:''}
     </div>`;
     return;
   }
   grid.innerHTML=list.map(n=>{
-    const links=n.links||[];
-    const isLong=n.notes.length>260;
-    const linksHTML=links.length?`
+    const videoUrl=n.URL||(n.video_id?`https://www.youtube.com/watch?v=${n.video_id}`:'');
+    const notesText=n.notes||'';
+    const isLong=notesText.length>260;
+    const viewsFmt=fmtViews(n.views);
+    const similarUrl=n['Similar Video'];
+
+    const similarHTML=similarUrl?`
       <div class="sep"></div>
-      <div class="links-section">
-        <div class="links-label"><i class="ti ti-paperclip" aria-hidden="true"></i>Resources</div>
-        <div class="links-list">
-          ${links.filter(l=>l.url).map(l=>`
-            <a class="link-chip ${linkClass(l.url)}" href="${esc(l.url)}" target="_blank" rel="noopener noreferrer" title="${esc(l.url)}">
-              <i class="ti ${linkIcon(l.url)}" aria-hidden="true"></i>${esc(linkLabel(l))}
-            </a>`).join('')}
-        </div>
-      </div>`:'' ;
-    return`<div class="card" data-id="${n.id}">
-      <div class="card-header">
-        <a class="open-btn" href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">
-          <i class="ti ti-player-play-filled" aria-hidden="true"></i>
-          Open Video
-          <i class="ti ti-external-link ext-icon" aria-hidden="true"></i>
+      <div class="similar-section">
+        <div class="similar-label"><i class="ti ti-player-play"></i>Similar Video</div>
+        <a class="similar-link" href="${esc(similarUrl)}" target="_blank" rel="noopener noreferrer">
+          <i class="ti ti-brand-youtube"></i>${esc(similarUrl.length>50?similarUrl.substring(0,50)+'…':similarUrl)}
         </a>
+      </div>`:'';
+
+    return `<div class="card" data-id="${n.id}">
+      <div class="card-header">
+        ${n.Rank?`<div class="rank-badge"><i class="ti ti-hash"></i>Rank ${n.Rank}</div>`:''}
+        ${videoUrl?`<a class="open-btn" href="${esc(videoUrl)}" target="_blank" rel="noopener noreferrer">
+          <i class="ti ti-player-play-filled"></i>Open Video
+          <i class="ti ti-external-link ext-icon"></i>
+        </a>`:`<div style="padding:8px 0 12px;font-size:12px;color:var(--text3)"><i class="ti ti-link-off"></i> No URL</div>`}
         <div class="meta-row">
-          <span class="yt-badge"><i class="ti ti-brand-youtube" aria-hidden="true"></i>YouTube</span>
-          <span class="card-date">${fmtDate(n.id)}</span>
+          <span class="yt-badge"><i class="ti ti-brand-youtube"></i>YouTube</span>
+          ${viewsFmt?`<span class="views-badge"><i class="ti ti-eye"></i>${viewsFmt} views</span>`:''}
         </div>
-        <div class="card-title">${esc(n.title)}</div>
-        ${linksHTML}
+        <div class="card-title">${esc(n.title||'Untitled')}</div>
+        ${similarHTML}
       </div>
       <div class="card-body">
-        ${n.notes?`
+        ${notesText?`
         <div class="sep"></div>
         <div class="notes-wrap">
-          <div class="notes-text${isLong?'':' open'}" id="nt-${n.id}">${esc(n.notes)}</div>
+          <div class="notes-text${isLong?'':' open'}" id="nt-${n.id}">${esc(notesText)}</div>
           ${isLong?`<div class="notes-fade" id="nf-${n.id}"></div>`:''}
         </div>
-        <div class="char-tag">${n.notes.length.toLocaleString()} characters</div>
-        ${isLong?`<button class="expand-btn" onclick="doExpand(${n.id})"><i class="ti ti-chevron-down" id="ei-${n.id}" aria-hidden="true"></i><span id="et-${n.id}">Show more</span></button>`:''}
-        `:`<div class="sep"></div><div class="notes-empty">No notes yet — click edit to add some.</div>`}
+        <div class="char-tag">${notesText.length.toLocaleString()} characters</div>
+        ${isLong?`<button class="expand-btn" onclick="doExpand(${JSON.stringify(n.id)})"><i class="ti ti-chevron-down" id="ei-${n.id}"></i><span id="et-${n.id}">Show more</span></button>`:''}
+        `:`<div class="sep"></div><div class="notes-empty">No notes yet.</div>`}
       </div>
       <div class="card-footer">
-        <button class="act-btn" onclick="openModal(${n.id})"><i class="ti ti-edit" aria-hidden="true"></i>Edit</button>
-        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.notes)},'Notes')"><i class="ti ti-copy" aria-hidden="true"></i>Copy Notes</button>
-        <button class="act-btn" onclick="copyTxt(${JSON.stringify(n.url)},'URL')"><i class="ti ti-link" aria-hidden="true"></i>Copy URL</button>
-        <button class="act-btn del" onclick="askDel(${n.id})"><i class="ti ti-trash" aria-hidden="true"></i>Delete</button>
+        <button class="act-btn" onclick="openModal(${JSON.stringify(n.id)})"><i class="ti ti-edit"></i>Edit</button>
+        <button class="act-btn" onclick="copyTxt(${JSON.stringify(notesText)},'Notes')"><i class="ti ti-copy"></i>Copy Notes</button>
+        ${videoUrl?`<button class="act-btn" onclick="copyTxt(${JSON.stringify(videoUrl)},'URL')"><i class="ti ti-link"></i>Copy URL</button>`:''}
+        <button class="act-btn del" onclick="askDel(${JSON.stringify(n.id)})"><i class="ti ti-trash"></i>Delete</button>
       </div>
     </div>`;
   }).join('');
@@ -523,91 +676,129 @@ function doExpand(id){
   ei.className=open?'ti ti-chevron-down':'ti ti-chevron-up';
 }
 
-/* ---- MODAL LINK ROWS ---- */
-let linkRowCount=0;
-function addLinkRow(label='',url=''){
-  const id='lr-'+Date.now()+linkRowCount++;
-  const row=document.createElement('div');row.className='link-row';row.id=id;
-  row.innerHTML=`
-    <input type="text" placeholder="Label (e.g. GitHub Repo)" value="${esc(label)}" class="link-label-in">
-    <input type="url" placeholder="https://..." value="${esc(url)}" class="link-url-in">
-    <button class="link-del-btn" onclick="removeLinkRow('${id}')"><i class="ti ti-trash" aria-hidden="true"></i></button>`;
-  document.getElementById('linkRows').appendChild(row);
-}
-function removeLinkRow(id){const el=document.getElementById(id);if(el)el.remove();}
-function quickLink(label,url){addLinkRow(label,url);}
-function getModalLinks(){
-  return Array.from(document.getElementById('linkRows').querySelectorAll('.link-row')).map(row=>({
-    label:row.querySelector('.link-label-in').value.trim(),
-    url:row.querySelector('.link-url-in').value.trim()
-  })).filter(l=>l.url);
-}
-
+/* ═══════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════ */
 function openModal(id=null){
   editId=id;
   document.getElementById('urlErr').style.display='none';
   document.getElementById('titleErr').style.display='none';
-  document.getElementById('urlOk').style.display='none';
   document.getElementById('urlIn').classList.remove('err');
   document.getElementById('titleIn').classList.remove('err');
-  document.getElementById('linkRows').innerHTML='';
-  linkRowCount=0;
+  setFetchStatus(null);
+  hideVideoPreview();
+  document.getElementById('similarSuggestions').style.display='none';
+  document.getElementById('similarSuggestions').innerHTML='';
+
+  // Make fields editable (could be readonly from previous fetch)
+  document.getElementById('viewsIn').removeAttribute('readonly');
+
   if(id!=null){
     const n=notes.find(x=>x.id===id);
+    if(!n)return;
     document.getElementById('modalHdTxt').textContent='Edit Note';
-    document.getElementById('urlIn').value=n.url;
-    document.getElementById('titleIn').value=n.title;
-    document.getElementById('notesIn').value=n.notes;
-    updCtr();updOk();
-    (n.links||[]).forEach(l=>addLinkRow(l.label,l.url));
+    document.getElementById('urlIn').value=n.URL||'';
+    document.getElementById('titleIn').value=n.title||'';
+    document.getElementById('videoIdIn').value=n.video_id||'';
+    document.getElementById('rankIn').value=n.Rank||'';
+    document.getElementById('viewsIn').value=n.views||'';
+    document.getElementById('similarIn').value=n['Similar Video']||'';
+    document.getElementById('notesIn').value=n.notes||'';
+    // Show thumb preview if video_id exists
+    if(n.video_id){
+      showVideoPreview({
+        thumbnail:`https://img.youtube.com/vi/${n.video_id}/mqdefault.jpg`,
+        title:n.title||'',
+        channel:'',
+        views:n.views||0
+      });
+    }
   }else{
     document.getElementById('modalHdTxt').textContent='Add Video Note';
-    document.getElementById('urlIn').value='';
-    document.getElementById('titleIn').value='';
-    document.getElementById('notesIn').value='';
-    updCtr();
+    ['urlIn','titleIn','videoIdIn','rankIn','viewsIn','similarIn','notesIn']
+      .forEach(x=>document.getElementById(x).value='');
   }
+  updCtr();
   document.getElementById('modalOv').style.display='flex';
   setTimeout(()=>document.getElementById('urlIn').focus(),80);
 }
+
 function closeModal(){document.getElementById('modalOv').style.display='none';editId=null;}
 function updCtr(){document.getElementById('notesCtr').textContent=document.getElementById('notesIn').value.length.toLocaleString()+' chars';}
-function updOk(){
-  const v=document.getElementById('urlIn').value.trim();
-  document.getElementById('urlOk').style.display=v&&isYT(v)?'flex':'none';
-}
 
-function saveNote(){
-  const url=document.getElementById('urlIn').value.trim();
-  const title=document.getElementById('titleIn').value.trim();
-  const nv=document.getElementById('notesIn').value;
+/* ═══════════════════════════════════════════════
+   SAVE
+═══════════════════════════════════════════════ */
+async function saveNote(){
+  const url     = document.getElementById('urlIn').value.trim();
+  const title   = document.getElementById('titleIn').value.trim();
+  const videoId = document.getElementById('videoIdIn').value.trim();
+  const rank    = document.getElementById('rankIn').value.trim();
+  const views   = document.getElementById('viewsIn').value.trim();
+  const similar = document.getElementById('similarIn').value.trim();
+  const notesVal= document.getElementById('notesIn').value;
+
   let ok=true;
   document.getElementById('urlErr').style.display='none';
   document.getElementById('titleErr').style.display='none';
   document.getElementById('urlIn').classList.remove('err');
   document.getElementById('titleIn').classList.remove('err');
+
   if(!url||!isYT(url)){document.getElementById('urlErr').style.display='block';document.getElementById('urlIn').classList.add('err');ok=false;}
   if(!title){document.getElementById('titleErr').style.display='block';document.getElementById('titleIn').classList.add('err');ok=false;}
   if(!ok)return;
-  const links=getModalLinks();
-  if(editId!=null){
-    const i=notes.findIndex(x=>x.id===editId);
-    notes[i]={...notes[i],url,title,notes:nv,links};
-    toast('Note updated','ok');
-  }else{
-    notes.unshift({id:Date.now(),url,title,notes:nv,links});
-    toast('Video note saved!','ok');
+
+  const payload={URL:url,title:title,notes:notesVal};
+  if(videoId) payload.video_id=videoId;
+  if(rank)    payload.Rank=parseInt(rank);
+  if(views)   payload.views=parseInt(views);
+  if(similar) payload['Similar Video']=similar;
+
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true;btn.textContent='Saving…';
+
+  try{
+    if(editId!=null){
+      const updated=await updateNote(editId,payload);
+      const idx=notes.findIndex(x=>x.id===editId);
+      notes[idx]=updated||{...notes[idx],...payload};
+      toast('Note updated','ok');
+    }else{
+      const inserted=await insertNote(payload);
+      if(inserted)notes.unshift(inserted);
+      toast('Video note saved!','ok');
+    }
+    renderGrid();closeModal();
+  }catch(err){
+    toast('Save failed: '+(err.message||'Unknown error'),'err');
+  }finally{
+    btn.disabled=false;btn.textContent='Save Note';
   }
-  persist();renderGrid();closeModal();
 }
 
+/* ═══════════════════════════════════════════════
+   DELETE
+═══════════════════════════════════════════════ */
 function askDel(id){delId=id;document.getElementById('confirmOv').style.display='flex';}
-function doDel(){
-  notes=notes.filter(n=>n.id!==delId);persist();renderGrid();
-  document.getElementById('confirmOv').style.display='none';
-  toast('Note deleted','err');delId=null;
+async function doDelConfirm(){
+  const btn=document.getElementById('doDel');
+  btn.disabled=true;btn.textContent='Deleting…';
+  try{
+    await deleteNote(delId);
+    notes=notes.filter(n=>n.id!==delId);
+    renderGrid();
+    document.getElementById('confirmOv').style.display='none';
+    toast('Note deleted','err');
+  }catch(err){
+    toast('Delete failed: '+err.message,'err');
+  }finally{
+    btn.disabled=false;btn.textContent='Delete';delId=null;
+  }
 }
 
+/* ═══════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════ */
 function toggleDark(){
   dark=!dark;
   document.documentElement.toggleAttribute('data-dark',dark);
@@ -615,11 +806,16 @@ function toggleDark(){
   document.getElementById('themeIco').className=dark?'ti ti-moon':'ti ti-sun';
 }
 
-/* INIT */
-load();
-if(localStorage.getItem('vnhub_dark')==='1'){dark=true;document.documentElement.setAttribute('data-dark','');document.getElementById('themeIco').className='ti ti-moon';}
-renderGrid();
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+if(localStorage.getItem('vnhub_dark')==='1'){
+  dark=true;document.documentElement.setAttribute('data-dark','');
+  document.getElementById('themeIco').className='ti ti-moon';
+}
+fetchNotes().then(data=>{notes=data;renderGrid();});
 
+/* Events */
 document.getElementById('addBtn').onclick=()=>openModal();
 document.getElementById('closeModal').onclick=closeModal;
 document.getElementById('cancelModal').onclick=closeModal;
@@ -628,9 +824,9 @@ document.getElementById('themeBtn').onclick=toggleDark;
 document.getElementById('searchIn').oninput=renderGrid;
 document.getElementById('sortSel').onchange=renderGrid;
 document.getElementById('notesIn').oninput=updCtr;
-document.getElementById('urlIn').oninput=updOk;
-document.getElementById('cancelDel').onclick=()=>{document.getElementById('confirmOv').style.display='none';};
-document.getElementById('doDel').onclick=doDel;
+document.getElementById('urlIn').oninput=onUrlInput;
+document.getElementById('cancelDel').onclick=()=>document.getElementById('confirmOv').style.display='none';
+document.getElementById('doDel').onclick=doDelConfirm;
 document.getElementById('modalOv').onclick=e=>{if(e.target===document.getElementById('modalOv'))closeModal();};
 document.getElementById('urlIn').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('titleIn').focus();});
 </script>
