@@ -771,19 +771,19 @@ async function saveNote(){
       toast('Note updated','ok');
     }else{
 
-  const { data, error } = await supabase
-    .from('Video')
-    .insert([
-      {
-        title: title,
-        channel: "YouTube",
-        views: 0,
-        thumbnail: "",
-        video_url: url,
-        notes: nv,
-        resources: JSON.stringify(links)
-      }
-    ]);
+  const { data, error } = await supabaseClient
+  .from('Video')
+  .insert([
+    {
+      title: title,
+      channel: "YouTube",
+      views: parseInt(document.getElementById('viewsIn')?.value || 0),
+      thumbnail: "",
+      video_url: url,
+      notes: nv,
+      resources: JSON.stringify(links)
+    }
+  ]);
 
   if(error){
     console.error(error);
