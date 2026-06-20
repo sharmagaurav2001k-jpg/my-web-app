@@ -765,7 +765,7 @@ async function saveNote(){
       toast('Note updated','ok');
     }else{
 
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from('Video')
     .insert([
       {
