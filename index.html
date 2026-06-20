@@ -764,11 +764,32 @@ async function saveNote(){
       notes[idx]=updated||{...notes[idx],...payload};
       toast('Note updated','ok');
     }else{
-      const inserted=await insertNote(payload);
-      if(inserted)notes.unshift(inserted);
-      toast('Video note saved!','ok');
-    }
-    renderGrid();closeModal();
+
+  const { data, error } = await supabaseClient
+    .from('Video')
+    .insert([
+      {
+        title: title,
+        channel: "YouTube",
+        views: 0,
+        thumbnail: "",
+        video_url: url,
+        notes: nv,
+        resources: JSON.stringify(links)
+      }
+    ]);
+
+  if(error){
+    console.error(error);
+    toast('Supabase save failed','err');
+    return;
+  }
+
+  toast('Video note saved!','ok');
+
+  await load();
+}
+    closeModal();
   }catch(err){
     toast('Save failed: '+(err.message||'Unknown error'),'err');
   }finally{
