@@ -735,8 +735,10 @@ function updCtr(){document.getElementById('notesCtr').textContent=document.getEl
 /* ═══════════════════════════════════════════════
    SAVE
 ═══════════════════════════════════════════════ */
-async function saveNote(){
-  const url     = document.getElementById('urlIn').value.trim();
+async function saveNote()
+console.log("supabaseClient =", supabaseClient);
+console.log("from =", typeof supabaseClient?.from);
+  {const url     = document.getElementById('urlIn').value.trim();
   const title   = document.getElementById('titleIn').value.trim();
   const videoId = document.getElementById('videoIdIn').value.trim();
   const rank    = document.getElementById('rankIn').value.trim();
